@@ -1,0 +1,145 @@
+/* @import url(https://fonts.googleapis.com/css2?family=Bubblegum+Sans&amp;family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap); */
+:root {
+    --quietly-dark: #0f172a;
+    --quietly-light: #f8fafc;
+}
+
+body {
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    padding-top: 78px;
+}
+
+.hero-gradient {
+    background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.15), transparent 55%),
+        linear-gradient(135deg, #111827, #1f2937);
+}
+
+.hero-gradient h1,
+.hero-gradient p {
+    color: white;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    border-radius: 1.25rem;
+    box-shadow: 0 25px 60px rgba(15, 23, 42, 0.12);
+}
+
+.icon-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #0f172a;
+    color: #fff;
+}
+
+.muted {
+    color: #6b7280;
+}
+
+.cta-section {
+    background: linear-gradient(135deg, #0f172a, #1f2937);
+    color: #fff;
+}
+
+.step-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+    background: #0f172a;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.control-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: #0f172a;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.device-panel {
+    background: linear-gradient(145deg, #e2e8f0, #f8fafc);
+    border-radius: 32px;
+    min-height: 420px;
+}
+
+.contact-card {
+    border-radius: 1rem;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.footer-link {
+    color: #475569;
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    color: #0f172a;
+}
+
+/* Hover Effects */
+.card {
+    overflow: hidden;
+    /* Ensure image zoom stays within card */
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-img-top {
+    transition: transform 0.5s ease;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.1);
+}
+
+.btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link {
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--quietly-dark) !important;
+}
+
+/* FAQ Smooth Transition */
+.accordion-collapse {
+    transition: height 0.5s ease-in-out;
+}
+
+.accordion-button:not(.collapsed) {
+    box-shadow: none;
+    background-color: transparent;
+    color: var(--quietly-dark);
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(0, 0, 0, 0.125);
+}
