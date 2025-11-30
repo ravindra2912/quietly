@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->longText('content')->nullable();
             $table->string('image')->nullable();
             $table->timestamp('published_at')->nullable();
-            $table->enum('status', ['active', 'in-active'])->default('active')->after('content');
+            $table->enum('status', ['active', 'in-active'])->default('active');
             $table->softDeletes();
             $table->timestamps();
         });
