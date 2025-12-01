@@ -51,17 +51,17 @@ class User extends Authenticatable
         ];
     }
 
-    
+
 
     //+++++++++++++++ For api responce ================
-    // public function apiObject(): array
-    // {
-    //     $data = $this->toArray();
+    public function apiObject(): array
+    {
+        $data = $this->toArray();
 
-    //     if (array_key_exists('profile_image', $data)) {
-    //         $data['profile_image'] = getImage($this->profile_image);
-    //     }
+        if (array_key_exists('profile_image', $data)) {
+            $data['profile_image'] = getImage($this->profile_image);
+        }
 
-    //     return $data;
-    // }
+        return $data;
+    }
 }

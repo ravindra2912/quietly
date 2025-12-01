@@ -54,9 +54,9 @@ class SettingController extends Controller
                 $update = User::find($id);
 
                 if ($request->hasFile('profile')) {
-                    $oldimage = $update->profile;
-                    $image_name = fileUploadStorage($request->file('profile'), 'user_images', 1000, 1000);
-                    $update->profile = $image_name;
+                    $oldimage = $update->profile_image;
+                    $image_name = fileUploadStorage($request->file('profile'), 'user_images', 500, 500);
+                    $update->profile_image = $image_name;
                 }
 
                 $update->first_name = $request->first_name;
