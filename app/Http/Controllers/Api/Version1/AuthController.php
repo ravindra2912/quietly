@@ -90,6 +90,7 @@ class AuthController extends Controller
 				'last_name' => 'required|max:191',
 				'email' => 'required|email|unique:users,email|max:191',
 				'contact' => 'required|numeric|digits:10|unique:users,phone',
+				'occupation' => 'required',
 			];
 
 			if ($request->login_type == 'google') {
@@ -114,6 +115,7 @@ class AuthController extends Controller
 					$User->profile_image = $image_name;
 					$User->email = trim($request->email);
 					$User->phone = trim($request->contact);
+					$User->occupation = trim($request->occupation);
 					if ($request->login_type == 'google') {
 						$User->google_auth_token = $request->google_auth_token;
 					} else {

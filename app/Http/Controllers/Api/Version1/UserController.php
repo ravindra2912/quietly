@@ -23,6 +23,7 @@ class UserController extends Controller
 				'profile_image' => 'nullable|mimes:jpg,jpeg,png,webp|max:5120', // 5 MB images
 				'first_name' => 'required|max:191',
 				'last_name' => 'required|max:191',
+				'occupation' => 'required',
 				'email' => 'required|email|max:191|unique:users,email,' . $request->user()->id,
 				'contact' => 'required|numeric|digits:10|unique:users,phone,' . $request->user()->id,
 			];
@@ -45,6 +46,7 @@ class UserController extends Controller
 					$User->last_name = trim($request->last_name);
 					$User->email = trim($request->email);
 					$User->phone = trim($request->contact);
+					$User->occupation = trim($request->occupation);
 					$User->save();
 
 					if (isset($image_old) && !empty($image_old)) {
