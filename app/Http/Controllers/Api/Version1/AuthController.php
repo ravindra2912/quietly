@@ -85,7 +85,7 @@ class AuthController extends Controller
 
 			$rules = [
 				'login_type' => 'required|in:normal,google',
-				'profile_image' => 'required|mimes:jpg,jpeg,png,webp|max:5120', // 5 MB images
+				'profile_image' => 'nullable|mimes:jpg,jpeg,png,webp|max:5120', // 5 MB images
 				'first_name' => 'required|max:191',
 				'last_name' => 'required|max:191',
 				'email' => 'required|email|unique:users,email|max:191',
@@ -107,12 +107,14 @@ class AuthController extends Controller
 			} else {
 				DB::beginTransaction();
 				try {
-					$image_name = fileUploadStorage($request->file('profile_image'), 'user_profile_images', 500, 500);
-
 					$User = new User();
+					if ($request->hasFile('profile_image')) {
+						$image_name = fileUploadStorage($request->file('profile_image'), 'user_profile_images', 500, 500);
+						$User->profile_image = $image_name;
+					}
+
 					$User->first_name = trim($request->first_name);
 					$User->last_name = trim($request->last_name);
-					$User->profile_image = $image_name;
 					$User->email = trim($request->email);
 					$User->phone = trim($request->contact);
 					$User->occupation = trim($request->occupation);
