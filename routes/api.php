@@ -3,8 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Version1\AuthController;
-use App\Http\Controllers\Api\Version1\QueryController;
-use App\Http\Controllers\Api\Version1\CommonController;
+use App\Http\Controllers\Api\Version1\PlanController;
 use App\Http\Controllers\Api\Version1\UserController;
 
 Route::get('/user', function (Request $request) {
@@ -17,9 +16,11 @@ Route::group(['prefix' => '/version-1'], function () {
     // });
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/registration', [AuthController::class, 'registration']);
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 
-    Route::get('/get-legal-page/{page}', [CommonController::class, 'getLegalPage']);
+
 
 
     Route::group(['middleware' => ['auth:api']], function () {
@@ -27,6 +28,12 @@ Route::group(['prefix' => '/version-1'], function () {
         Route::controller(UserController::class)->group(function () {
             Route::post('/update-user-profile', 'UpdateProfile');
             Route::delete('/remove-account', 'removeAccount');
+        });
+
+        Route::controller(PlanController::class)->group(function () {
+            Route::get('/get-plans', 'getPlans');
+            Route::get('/get-plan-details/{planId}', 'getPlanDetails');
+            Route::post('/in-app-purchase', 'inAppPurchase');
         });
 
         Route::post('/logout', [AuthController::class, 'logout']);

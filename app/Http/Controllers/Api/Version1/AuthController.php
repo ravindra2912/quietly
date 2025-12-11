@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 use App\Models\{User};
+use App\Mail\ResetPasswordMail;
 
 class AuthController extends Controller
 {
@@ -74,6 +76,7 @@ class AuthController extends Controller
 		}
 		return apiResponce($statuscode, $success, $message, $data);
 	}
+
 	public function registration(Request $request)
 	{
 		$success = false;
@@ -156,6 +159,125 @@ class AuthController extends Controller
 
 			$success = true;
 			$message = 'Logged out successfully';
+		} catch (\Exception $e) {
+			$message = $e->getMessage();
+		}
+
+		return apiResponce($statuscode, $success, $message, $data);
+	}
+
+	public function forgotPassword(Request $request)
+	{
+		$success = false;
+		$message = 'Something Wrong!';
+		$data = array();
+		$statuscode = 200;
+
+		try {
+			$rules = [
+				'email' => 'required|email|exists:users,email',
+			];
+
+			$validator = Validator::make($request->all(), $rules);
+
+			if ($validator->fails()) {
+				$message = $validator->errors()->first();
+			} else {
+				$user = User::where('email', $request->email)->first();
+
+				if ($user) {
+					// Generate 6-digit OTP
+					$otp = rand(100000, 999999);
+
+					// Store OTP in database (expires in 10 minutes)
+					DB::table('password_reset_tokens')->updateOrInsert(
+						['email' => $request->email],
+						[
+							'email' => $request->email,
+							'token' => $otp,
+							'created_at' => now()
+						]
+					);
+
+					// Send OTP via email
+					try {
+						$userName = $user->first_name . ' ' . $user->last_name;
+						Mail::to($user->email)->send(new ResetPasswordMail($otp, $userName));
+
+						$success = true;
+						$message = 'OTP sent to your email successfully';
+						// $data['otp'] = $otp; // Uncomment for testing only
+					} catch (\Exception $mailException) {
+						// If email fails, still return success but log the error
+						\Log::error('Failed to send reset password email: ' . $mailException->getMessage());
+						$success = true;
+						$message = 'OTP generated successfully';
+						$data['otp'] = $otp; // Return OTP if email fails (for testing)
+					}
+				} else {
+					$message = 'User not found';
+				}
+			}
+		} catch (\Exception $e) {
+			$message = $e->getMessage();
+		}
+
+		return apiResponce($statuscode, $success, $message, $data);
+	}
+
+	public function resetPassword(Request $request)
+	{
+		$success = false;
+		$message = 'Something Wrong!';
+		$data = array();
+		$statuscode = 200;
+
+		try {
+			$rules = [
+				'email' => 'required|email|exists:users,email',
+				'otp' => 'required|numeric|digits:6',
+				'password' => 'required|min:6',
+			];
+
+			$validator = Validator::make($request->all(), $rules);
+
+			if ($validator->fails()) {
+				$message = $validator->errors()->first();
+			} else {
+				// Verify OTP
+				$resetRecord = DB::table('password_reset_tokens')
+					->where('email', $request->email)
+					->where('token', $request->otp)
+					->first();
+
+				if (!$resetRecord) {
+					$message = 'Invalid OTP';
+				} else {
+					// Check if OTP is expired (10 minutes)
+					$createdAt = \Carbon\Carbon::parse($resetRecord->created_at);
+					if ($createdAt->addMinutes(10)->isPast()) {
+						$message = 'OTP has expired. Please request a new one.';
+
+						// Delete expired OTP
+						DB::table('password_reset_tokens')
+							->where('email', $request->email)
+							->delete();
+					} else {
+						// Update password
+						$user = User::where('email', $request->email)->first();
+						$user->password = Hash::make($request->password);
+						$user->save();
+
+						// Delete used OTP
+						DB::table('password_reset_tokens')
+							->where('email', $request->email)
+							->delete();
+
+						$success = true;
+						$message = 'Password reset successfully';
+					}
+				}
+			}
 		} catch (\Exception $e) {
 			$message = $e->getMessage();
 		}

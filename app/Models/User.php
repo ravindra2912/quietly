@@ -51,6 +51,19 @@ class User extends Authenticatable
         ];
     }
 
+    // Relationships
+    public function planPurchases()
+    {
+        return $this->hasMany(PlanPurchase::class);
+    }
+
+    public function activePlan()
+    {
+        return $this->hasOne(PlanPurchase::class)
+            ->where('status', 'active')
+            ->where('expired_at', '>', now())
+            ->latest();
+    }
 
 
     //+++++++++++++++ For api responce ================

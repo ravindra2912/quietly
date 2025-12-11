@@ -28,6 +28,21 @@
           </a>
         </li>
 
+        <li class="nav-item">
+          <a href="{{ route('admin.plan.index') }}"
+            class="nav-link {{ request()->routeIs('admin.plan*') && !request()->routeIs('admin.plan-purchase*') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-tags"></i>
+            <p> Plans </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="{{ route('admin.plan-purchase.index') }}"
+            class="nav-link {{ request()->routeIs('admin.plan-purchase*') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-shopping-cart"></i>
+            <p> Plan Purchases </p>
+          </a>
+        </li>
 
 
 
