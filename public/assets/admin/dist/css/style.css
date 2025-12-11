@@ -305,6 +305,79 @@ body {
     transform: none !important;
 }
 
+/* DataTable Info and Layout */
+.dataTables_info {
+    display: block !important;
+    padding-top: 1rem;
+    color: #525f7f !important;
+    font-weight: 600;
+}
+
+.dataTables_wrapper .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 1rem;
+}
+
+/* Custom Select2 Styling */
+.select2-container--bootstrap4 .select2-selection {
+    border-radius: 10px !important;
+    border: 1px solid #e9ecef !important;
+    min-height: 38px !important;
+}
+
+.select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered {
+    line-height: 36px !important;
+    padding-left: 15px !important;
+}
+
+.select2-container--bootstrap4 .select2-selection--single .select2-selection__arrow {
+    height: 38px !important;
+    top: 0 !important;
+    right: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.select2-container--bootstrap4 .select2-selection--single .select2-selection__arrow b {
+    display: none !important;
+}
+
+.select2-container--bootstrap4 .select2-selection--single .select2-selection__arrow::after {
+    content: "\f078";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: #495057;
+    font-size: 12px;
+}
+
+.select2-dropdown {
+    border-radius: 10px !important;
+    border: 1px solid #e9ecef !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.select2-results__option {
+    padding: 10px 15px !important;
+}
+
+.select2-results__option--highlighted {
+    background-color: rgba(106, 17, 203, 0.1) !important;
+    color: #6a11cb !important;
+}
+
+/* Date Range Picker Styling */
+.daterangepicker {
+    border-radius: 10px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
 /* Mobile Navigation */
 .home-menu-icon-container {
     display: none;

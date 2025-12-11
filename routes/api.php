@@ -19,10 +19,6 @@ Route::group(['prefix' => '/version-1'], function () {
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
     Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
-
-
-
-
     Route::group(['middleware' => ['auth:api']], function () {
 
         Route::controller(UserController::class)->group(function () {

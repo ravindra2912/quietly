@@ -31,10 +31,15 @@ class UsersController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('img', function ($row) {
-                    
-                    return '<div class="text-center"><img src="'.getImage($row->profile_image).'" class="table_img" /></div>';
+
+                    return '<div class="text-center"><img src="' . getImage($row->profile_image) . '" class="table_img" /></div>';
                 })
                 ->addColumn('action', function ($row) {
+                    // Restrict edit and delete for admin users
+                    if ($row->role === 'admin') {
+                        return '<div class="text-center"><span class="badge badge-info">Protected</span></div>';
+                    }
+
                     $url = route('admin.user.destroy', $row->id);
                     $url = "'" . $url . "'";
                     return ' <div class="text-center">
@@ -127,6 +132,13 @@ class UsersController extends Controller
     public function edit(Request $request, $id)
     {
         $user = User::find($id);
+
+        // Restrict editing admin users
+        if ($user && $user->role === 'admin') {
+            return redirect()->route('admin.user.index')
+                ->with('error', 'Admin users cannot be edited.');
+        }
+
         return view('admin.user.edit', compact('user'));
     }
 
@@ -138,12 +150,19 @@ class UsersController extends Controller
         $data = array();
 
         try {
+            // Check if user is admin before allowing update
+            $user = User::find($id);
+            if ($user && $user->role === 'admin') {
+                $message = 'Admin users cannot be edited.';
+                return response()->json(['success' => $success, 'message' => $message, 'data' => $data, 'redirect' => $redirect]);
+            }
+
             $rules = [
                 'profile' => 'nullable|mimes:jpg,jpeg,png,webp|',
                 'first_name' => 'required',
                 'last_name' => 'required',
-                'email' => 'required|email|unique:users,email,'.$id,
-                'contact' => 'required|numeric|digits:10|unique:users,phone,'.$id,
+                'email' => 'required|email|unique:users,email,' . $id,
+                'contact' => 'required|numeric|digits:10|unique:users,phone,' . $id,
                 // 'dob' => 'nullable|date',
                 // 'gender' => 'nullable',
                 'role_id' => 'required',
@@ -195,7 +214,8 @@ class UsersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id) {
+    public function destroy(string $id)
+    {
         $success = false;
         $message = 'Something Wrong!';
         $redirect = route('admin.user.index');
@@ -203,6 +223,13 @@ class UsersController extends Controller
 
         try {
             $delete = User::find($id);
+
+            // Restrict deleting admin users
+            if ($delete && $delete->role === 'admin') {
+                $message = 'Admin users cannot be deleted.';
+                return response()->json(['success' => $success, 'message' => $message, 'data' => $data, 'redirect' => $redirect]);
+            }
+
             if ($delete) {
                 fileRemoveStorage($delete->profile);
                 $delete->delete();

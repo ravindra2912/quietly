@@ -71,11 +71,9 @@
                                 <label>Status <span class="error">*</span></label>
                                 <select class="form-control" name="status">
                                     <option value="">Select Status</option>
-                                    <option value="pending">Pending</option>
-                                    <option value="active" selected>Active</option>
-                                    <option value="in-active">In-Active</option>
-                                    <option value="expired">Expired</option>
-                                    <option value="override">Override</option>
+                                    @foreach (config('const.plan_purchase_status') as $status)
+                                    <option value="{{ $status }}">{{ $status }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

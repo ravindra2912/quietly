@@ -31,6 +31,7 @@ return [
     "blog_status" => ["active", "in-active"],
 
     "legal_page_type" => ["PrivacyPolicy", "TermsAndCondition", "CancellationAndReturnPolicy", "AboutUs"],
+    "plan_purchase_status" => ["pending", "active", "in-active", "expired", "override"],
 
 
     "rating" => [

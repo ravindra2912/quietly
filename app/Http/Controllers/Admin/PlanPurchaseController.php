@@ -14,6 +14,25 @@ class PlanPurchaseController extends Controller
     {
         if ($request->ajax()) {
             $data = PlanPurchase::with(['user', 'plan'])->latest();
+
+            // Apply filters
+            if ($request->filled('user_id')) {
+                $data->where('user_id', $request->user_id);
+            }
+
+            if ($request->filled('plan_id')) {
+                $data->where('plan_id', $request->plan_id);
+            }
+
+            if ($request->filled('status')) {
+                $data->where('status', $request->status);
+            }
+
+            // Apply date range filter
+            if ($request->filled('start_date') && $request->filled('end_date')) {
+                $data->whereDate('start_at', '>=', $request->start_date)
+                    ->whereDate('start_at', '<=', $request->end_date);
+            }
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('user_name', function ($row) {
@@ -51,7 +70,37 @@ class PlanPurchaseController extends Controller
                 ->rawColumns(['status', 'dates', 'action'])
                 ->make(true);
         }
-        return view('admin.plan_purchase.index');
+
+        // Pass filter data to view
+        $plans = Plan::select('id', 'name')->orderBy('name')->get();
+
+        return view('admin.plan_purchase.index', compact('plans'));
+    }
+
+    /**
+     * Search users for Select2 AJAX
+     */
+    public function searchUsers(Request $request)
+    {
+        $search = $request->get('q', '');
+
+        $users = User::select('id', 'first_name', 'last_name')
+            ->where(function ($query) use ($search) {
+                $query->where('first_name', 'LIKE', "%{$search}%")
+                    ->orWhere('last_name', 'LIKE', "%{$search}%")
+                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search}%"]);
+            })
+            ->orderBy('first_name')
+            ->limit(10)
+            ->get()
+            ->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'text' => $user->first_name . ' ' . $user->last_name
+                ];
+            });
+
+        return response()->json(['results' => $users]);
     }
 
     public function create()

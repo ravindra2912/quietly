@@ -67,11 +67,9 @@
                             <div class="form-group">
                                 <label>Status <span class="error">*</span></label>
                                 <select class="form-control" name="status">
-                                    <option value="pending" {{ $planPurchase->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="active" {{ $planPurchase->status == 'active' ? 'selected' : '' }}>Active</option>
-                                    <option value="in-active" {{ $planPurchase->status == 'in-active' ? 'selected' : '' }}>In-Active</option>
-                                    <option value="expired" {{ $planPurchase->status == 'expired' ? 'selected' : '' }}>Expired</option>
-                                    <option value="override" {{ $planPurchase->status == 'override' ? 'selected' : '' }}>Override</option>
+                                    @foreach (config('const.plan_purchase_status') as $status)
+                                    <option value="{{ $status }}" {{ $planPurchase->status == $status ? 'selected' : '' }}>{{ $status }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
