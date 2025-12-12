@@ -67,14 +67,3 @@ Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 // });
 
 require __DIR__ . '/auth.php';
-
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {
-    Route::resource('blog', AdminBlogController::class);
-    Route::resource('plan', \App\Http\Controllers\Admin\PlanController::class);
-    Route::resource('plan-purchase', \App\Http\Controllers\Admin\PlanPurchaseController::class);
-    Route::get('plan-purchase-search-users', [\App\Http\Controllers\Admin\PlanPurchaseController::class, 'searchUsers'])->name('plan-purchase.search-users');
-    Route::post('contact-us/update-status', [\App\Http\Controllers\Admin\ContactUsController::class, 'updateStatus'])->name('contact-us.update-status');
-    Route::resource('contact-us', \App\Http\Controllers\Admin\ContactUsController::class)->only(['index', 'destroy', 'show']);
-    // Summernote image upload route for admin blog
-    Route::post('blog/upload-image', [AdminBlogController::class, 'uploadImage'])->name('blog.uploadImage');
-});

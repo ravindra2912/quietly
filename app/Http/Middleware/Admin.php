@@ -18,21 +18,21 @@ class Admin
     {
         // dd(Auth::user());
         // return $next($request);
-        if (Auth::check()){
-           
+        if (Auth::check()) {
+
             if (Auth::user()->role != 'admin') {
-                if($request->ajax()){
-                    return response()->json(['success' => false, 'message' => 'Un-Authenticated Access', 'data' => array() ]);
-                }else{
+                if ($request->ajax()) {
+                    return response()->json(['success' => false, 'message' => 'Un-Authenticated Access', 'data' => array()]);
+                } else {
                     return redirect()->route('admin.login');
                 }
-            }else{
+            } else {
                 return $next($request);
             }
-        }else{
-            if($request->ajax()){
-                return response()->json(['success' => false, 'message' => 'Session Expired', 'data' => array() ]);
-            }else{
+        } else {
+            if ($request->ajax()) {
+                return response()->json(['success' => false, 'message' => 'Session Expired', 'data' => array()]);
+            } else {
                 return redirect()->route('admin.login');
             }
         }

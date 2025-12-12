@@ -179,6 +179,26 @@ class BlogController extends Controller
                 if ($delete->image) {
                     fileRemoveStorage($delete->image);
                 }
+
+                // Delete images uploaded via Summernote
+                $content = $delete->content;
+                if (!empty($content)) {
+                    $dom = new \DOMDocument();
+                    libxml_use_internal_errors(true);
+                    $dom->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                    libxml_clear_errors();
+
+                    $images = $dom->getElementsByTagName('img');
+                    foreach ($images as $img) {
+                        $src = $img->getAttribute('src');
+                        // Identify our images by folder name 'blog_images/'
+                        if (strpos($src, 'blog_images/') !== false) {
+                            $path = substr($src, strpos($src, 'blog_images/'));
+                            fileRemoveStorage($path);
+                        }
+                    }
+                }
+
                 $delete->delete();
                 $success = true;
                 $message = 'Blog deleted successfully.';

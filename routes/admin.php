@@ -1,29 +1,19 @@
 <?php
 
-use App\Http\Middleware\Admin;
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\CommonController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\SettingController;
-use App\Http\Controllers\Admin\BusinessController;
 use App\Http\Controllers\Admin\DashboarController;
 use App\Http\Controllers\Admin\LagelPagesController;
-use App\Http\Controllers\Admin\LocationMasterController;
-use App\Http\Controllers\Admin\BusinessCategoryController;
-use App\Http\Controllers\Admin\RouteTripController;
 use App\Http\Controllers\Admin\SeoController;
-use App\Http\Controllers\Admin\VihicleController;
-use App\Http\Controllers\front\TripController;
+use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\PlanPurchaseController;
+use App\Http\Controllers\Admin\ContactUsController;
 
 Route::name('admin.')->group(function () {
-    // Route::controller(CommonController::class)->group(function () {
-    //     Route::post('getCities', 'getCities')->name('getCities');
-    //     Route::post('get-citie-areas', 'getCitieArea')->name('getCitieArea');
-    // });
     Route::middleware('web', 'guest')->group(function () {
         Route::controller(AuthController::class)->group(function () {
             Route::get('login', 'index')->name('login');
@@ -52,6 +42,15 @@ Route::name('admin.')->group(function () {
             Route::get('setting/profile', 'profile')->name('setting.profile');
             Route::post('setting/profile/{id}', 'profileUpdate')->name('setting.profile.update');
         });
+
+        Route::resource('blog', BlogController::class);
+        Route::resource('plan', \App\Http\Controllers\Admin\PlanController::class);
+        Route::resource('plan-purchase', PlanPurchaseController::class);
+        Route::get('plan-purchase-search-users', [PlanPurchaseController::class, 'searchUsers'])->name('plan-purchase.search-users');
+        Route::post('contact-us/update-status', [ContactUsController::class, 'updateStatus'])->name('contact-us.update-status');
+        Route::resource('contact-us', ContactUsController::class)->only(['index', 'destroy', 'show']);
+        // Summernote image upload route for admin blog
+        Route::post('blog/upload-image', [BlogController::class, 'uploadImage'])->name('blog.uploadImage');
 
 
 
