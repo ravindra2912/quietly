@@ -1,159 +1,130 @@
 @extends('admin.layouts.main')
+@section('title', 'Blogs List')
+
+@push('style')
+<link rel="stylesheet" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}" />
+@endpush
+
 @section('content')
-@section('title', 'Blogs Page')
 
-    @push('style')
-        <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/dist/css/jquery.dataTables.css') }}" />
-    @endpush
-
-
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">Blogs list</h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Blogs list</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Blogs List</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Blogs</li>
+            </ol>
+        </nav>
     </div>
-    <!-- /.content-header -->
+</div>
 
-
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Blogs list</h3>
-                            <div class="float-right">
-                                <a href="{{ route('admin.blog.create') }}" class="btn btn-primary"><i
-                                        class="fas fa-plus"></i> Add</a>
-                            </div>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive">
-
-                            <table class="table table-hover text-nowrap w-100" id="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Image</th>
-                                        <th>Title</th>
-                                        <th>Published At</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
-                </div>
-            </div>
-
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center bg-white">
+        <h5 class="m-0 font-weight-bold text-primary">All Blogs</h5>
+        <a href="{{ route('admin.blog.create') }}" class="btn btn-primary btn-sm">
+            <i class="bi bi-plus-lg me-1"></i> Add Blog
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="data-table" width="100%" cellspacing="0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Published At</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
-    </section>
-    <!-- /.content -->
+    </div>
+</div>
 
-
-
-    @push('js')
-        <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-        <!-- Sweet Alert -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-        <script type="text/javascript">
-            $(function () {
-                var table = $('#data-table').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: "{{ route('admin.blog.index') }}",
-                    columns: [{
-                        data: 'image',
-                        name: 'image',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'title',
-                        name: 'title'
-                    },
-                    {
-                        data: 'published_at',
-                        name: 'published_at'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
-                    ]
-                });
-            });
-
-
-            // delete user
-            function destroy(url, id) {
-                Swal.fire({
-                    title: 'Are you sure?',
-                    icon: 'error',
-                    html: "You want to delete this blog?",
-                    allowOutsideClick: false,
-                    showCancelButton: true,
-                    confirmButtonText: 'Delete',
-                    cancelButtonText: 'Cancel',
-                })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: url,
-                                type: "POST",
-                                data: {
-                                    '_method': 'DELETE'
-                                },
-                                dataType: "json",
-                                headers: {
-                                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                                },
-                                beforeSend: function () {
-                                    $('.btn_delete-' + id + ' #buttonText').addClass('d-none');
-                                    $('.btn_delete-' + id + ' #loader').removeClass('d-none');
-                                    $('.btn_delete-' + id).prop('disabled', true);
-                                },
-                                success: function (result) {
-                                    if (result.success) {
-                                        toastr.success(result.message);
-                                        location.reload()
-                                    } else {
-                                        toastr.error(result.message);
-                                    }
-                                    $('.btn_action-' + id + ' #buttonText').removeClass('d-none');
-                                    $('.btn_action-' + id + ' #loader').addClass('d-none');
-                                    $('.btn_action-' + id).prop('disabled', false);
-                                },
-                                error: function (e) {
-                                    toastr.error('Somthing Wrong');
-                                    console.log(e);
-                                    $('.btn_action-' + id + ' #buttonText').removeClass('d-none');
-                                    $('.btn_action-' + id + ' #loader').addClass('d-none');
-                                    $('.btn_action-' + id).prop('disabled', false);
-                                }
-                            });
-                        }
-                    })
-            }
-        </script>
-    @endpush
 @endsection
+
+@push('js')
+<script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
+<!-- Sweet Alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script type="text/javascript">
+    $(function() {
+        var table = $('#data-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('admin.blog.index') }}",
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search blogs..."
+            },
+            columns: [{
+                    data: 'image',
+                    name: 'image',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data) {
+                        return data ? data : '';
+                    }
+                },
+                {
+                    data: 'title',
+                    name: 'title'
+                },
+                {
+                    data: 'published_at',
+                    name: 'published_at'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ]
+        });
+    });
+
+
+    // delete blog
+    function destroy(url, id) {
+        Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to delete this blog?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Delete'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    // Ajax Delete
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: {
+                            '_method': 'DELETE',
+                            '_token': "{{ csrf_token() }}"
+                        },
+                        success: function(result) {
+                            if (result.success) {
+                                // toastr.success(result.message);
+                                $('#data-table').DataTable().ajax.reload();
+                                Swal.fire('Deleted!', result.message, 'success');
+                            } else {
+                                Swal.fire('Error', result.message, 'error');
+                            }
+                        },
+                        error: function(e) {
+                            Swal.fire('Error', 'Something went wrong', 'error');
+                        }
+                    });
+                }
+            })
+    }
+</script>
+@endpush

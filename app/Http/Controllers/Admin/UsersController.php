@@ -32,7 +32,7 @@ class UsersController extends Controller
                 ->addIndexColumn()
                 ->addColumn('img', function ($row) {
 
-                    return '<div class="text-center"><img src="' . getImage($row->profile_image) . '" class="table_img" /></div>';
+                    return '<div class="text-center"><img src="' . getImage($row->profile_image) . '" class="avatar-img" /></div>';
                 })
                 ->addColumn('action', function ($row) {
                     // Restrict edit and delete for admin users
@@ -43,9 +43,9 @@ class UsersController extends Controller
                     $url = route('admin.user.destroy', $row->id);
                     $url = "'" . $url . "'";
                     return ' <div class="text-center">
-                    <a href="' . route('admin.user.edit', $row->id) . '" class="btn btn-outline-primary btn-sm" title="edit"><i class="far fa-edit"></i></a>
+                    <a href="' . route('admin.user.edit', $row->id) . '" class="btn btn-outline-primary btn-sm" title="edit"><i class="bi bi-pencil-fill"></i></a>
                     <button onclick="destroy(' . $url . ', ' . $row->id . ')" class="btn btn-outline-danger btn-sm btn_delete-' . $row->id . '" title="Delete">
-                        <i id="buttonText" class="far fa-trash-alt"></i>
+                        <i id="buttonText" class="bi bi-trash-fill"></i>
                         <span id="loader" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                     </button>
                     </div>';

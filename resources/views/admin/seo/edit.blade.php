@@ -1,94 +1,77 @@
 @extends('admin.layouts.main')
 @section('content')
-@section('title', 'Edit Seo')
+@section('title', 'Edit SEO')
 
-@push('style')
-<!-- summernote -->
-
-@endpush
-
-<!-- Content Header (Page header) -->
-<div class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1 class="m-0">Create Seo</h1>
-      </div><!-- /.col -->
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-          <li class="breadcrumb-item"><a href="{{ route('admin.seo.index') }}">Seo list</a></li>
-          <li class="breadcrumb-item active">Edit Seo</li>
-        </ol>
-      </div><!-- /.col -->
-    </div><!-- /.row -->
-  </div><!-- /.container-fluid -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Edit SEO</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.seo.index') }}" class="text-decoration-none">SEO List</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit SEO</li>
+      </ol>
+    </nav>
+  </div>
 </div>
-<!-- /.content-header -->
 
-<!-- Main content -->
 <section class="content">
   <div class="row">
-    <div class="col-md-12">
-      <div class="card card-outline card-info">
-        <div class="card-header">
-          <h3 class="card-title">
-            Edit Seo
-          </h3>
+    <div class="col-12">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Edit SEO</h6>
         </div>
-        <!-- /.card-header -->
         <div class="card-body">
-          <form action="{{ route('admin.seo.update', $seo->id) }}" data-action="redirect" class="row formaction">
+          <form action="{{ route('admin.seo.update', $seo->id) }}" data-action="redirect" class="row g-3 formaction">
             @csrf
-            <input type="hidden" name="_method" value="PATCH">
+            <input type="hidden" name="_method" value="PUT">
 
             <div class="col-md-12">
-              <div class="form-group">
-                <label>URL <span class="error">*</span></label>
+              <div class="mb-3">
+                <label class="form-label">URL <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" name="site_url" value="{{ $seo->site_url }}" placeholder="URL" />
               </div>
             </div>
 
             <div class="col-md-12">
-              <div class="form-group">
-                <label>Meta Title <span class="error">*</span></label>
+              <div class="mb-3">
+                <label class="form-label">Meta Title <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" name="meta_title" value="{{ $seo->meta_title }}" placeholder="Meta Title" />
               </div>
             </div>
 
             <div class="col-md-12">
-              <div class="form-group">
-                <label>Meta Description <span class="error">*</span></label>
-                <textarea class="form-control" name="meta_description" placeholder="Meta Description">{{ $seo->meta_description }}</textarea>
+              <div class="mb-3">
+                <label class="form-label">Meta Description <span class="text-danger">*</span></label>
+                <textarea class="form-control" name="meta_description" placeholder="Meta Description" rows="4">{{ $seo->meta_description }}</textarea>
               </div>
             </div>
 
             <div class="col-md-12">
-              <div class="form-group">
-                <label>Meta Keywords <span class="error">*</span></label>
-                <textarea class="form-control" name="meta_keywords" placeholder="Meta Keywords">{{ $seo->meta_keywords }}</textarea>
+              <div class="mb-3">
+                <label class="form-label">Meta Keywords <span class="text-danger">*</span></label>
+                <textarea class="form-control" name="meta_keywords" placeholder="Meta Keywords" rows="4">{{ $seo->meta_keywords }}</textarea>
               </div>
             </div>
 
-            <div class="col-sm-12 text-right">
-              <button class="btn btn-danger" type="button" onclick="history.back()">Back</button>
+            <div class="col-12 d-flex justify-content-end gap-2 mt-3">
+              <button class="btn btn-secondary" type="button" onclick="history.back()">Back</button>
               <button class="btn btn-primary btn_action" type="submit">
                 <span id="loader" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-                <span id="buttonText">Submit</span>
+                <span id="buttonText">Update</span>
               </button>
-
             </div>
           </form>
         </div>
       </div>
     </div>
-    <!-- /.col-->
   </div>
 </section>
-<!-- /.content -->
 
 @push('js')
-
-
+<script>
+  // Additional JS if needed
+</script>
 @endpush
 @endsection

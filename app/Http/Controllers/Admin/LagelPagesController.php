@@ -27,12 +27,12 @@ class LagelPagesController extends Controller
             $data = LegalPage::query();
 
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
-                        return '<a href="'.route('admin.lagel-pages.edit', $row->id).'" class="btn btn-outline-primary btn-sm" title="edit"><i class="far fa-edit"></i></a>';
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    return '<a href="' . route('admin.lagel-pages.edit', $row->id) . '" class="btn btn-outline-primary btn-sm" title="edit"><i class="bi bi-pencil-fill"></i></a>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
         return view('admin.lagel_page.index');
     }
@@ -42,7 +42,7 @@ class LagelPagesController extends Controller
         $legalData = LegalPage::find($id);
         return view('admin.lagel_page.edit', compact('legalData'));
     }
-    
+
     public function update(Request $request, $id)
     {
         $success = false;
@@ -64,7 +64,7 @@ class LagelPagesController extends Controller
             } else {
 
                 $update = LegalPage::find($id);
-                if(!$update){
+                if (!$update) {
                     $update = new LegalPage();
                 }
                 $update->page_type = $request->type;
@@ -79,8 +79,5 @@ class LagelPagesController extends Controller
             $message = $e->getMessage();
         }
         return response()->json(['success' => $success, 'message' => $message, 'data' => $data, 'redirect' => $redirect]);
-        
     }
-
-    
 }

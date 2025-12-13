@@ -28,9 +28,9 @@ class SeoController extends Controller
                     $url = route('admin.seo.destroy', $row->id);
                     $url = "'" . $url . "'";
                     return ' <div class="text-center">
-                    <a href="' . route('admin.seo.edit', $row->id) . '" class="btn btn-outline-primary btn-sm" title="edit"><i class="far fa-edit"></i></a>
+                    <a href="' . route('admin.seo.edit', $row->id) . '" class="btn btn-outline-primary btn-sm" title="edit"><i class="bi bi-pencil-fill"></i></a>
                     <button onclick="destroy(' . $url . ', ' . $row->id . ')" class="btn btn-outline-danger btn-sm btn_delete-' . $row->id . '" title="Delete">
-                        <i id="buttonText" class="far fa-trash-alt"></i>
+                        <i id="buttonText" class="bi bi-trash-fill"></i>
                         <span id="loader" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                     </button>
                     </div>';

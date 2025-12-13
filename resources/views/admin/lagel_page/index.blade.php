@@ -1,97 +1,76 @@
-
 @extends('admin.layouts.main')
 @section('content')
-@section('title', 'Legal Page')
+@section('title', 'Legal Pages')
 
 @push('style')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/dist/css/jquery.dataTables.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}" />
 @endpush
 
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="h4 mb-0">Legal Pages</h2>
+  <ol class="breadcrumb m-0">
+    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+    <li class="breadcrumb-item active">Legal Pages</li>
+  </ol>
+</div>
 
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Lagel Pages</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-   
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Responsive Hover Table</h3>
-
-                <!-- <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div> -->
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body table-responsive">
-                <table class="table table-hover text-nowrap" id="data-table">
-                  <thead>
-                    <tr>
-                      <th>Page type</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
+<section class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Legal Pages List</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <!-- Added table-striped, removed table-bordered redundancy if desired, usually kept in BS5 -->
+            <table class="table table-bordered table-striped table-hover" id="data-table" width="100%" cellspacing="0">
+              <thead class="table-light">
+                <tr>
+                  <th>Page Type</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
           </div>
         </div>
-        
       </div>
-    </section>
-    <!-- /.content -->
-  
-  @push('js')
-  <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-  <script type="text/javascript">
+    </div>
+  </div>
+</section>
 
-$(function () {
-  var table = $('#data-table').DataTable({
-
+@push('js')
+<script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
+<script type="text/javascript">
+  $(function() {
+    var table = $('#data-table').DataTable({
       processing: true,
       serverSide: true,
       ajax: "{{ route('admin.lagel-pages') }}",
-      columns: [
-          {data: 'page_type', name: 'page_type', orderable: false, searchable: false},
-          {data: 'action', name: 'action', orderable: false, searchable: false},
+      language: {
+        search: "_INPUT_",
+        searchPlaceholder: "Search pages..."
+      },
+      columns: [{
+          data: 'page_type',
+          name: 'page_type',
+          orderable: false,
+          searchable: false,
+          render: function(data) {
+            return data ? data.replace('_', ' ').toUpperCase() : 'N/A';
+          }
+        },
+        {
+          data: 'action',
+          name: 'action',
+          orderable: false,
+          searchable: false
+        },
       ]
+    });
   });
-
-    
-
-});
-
 </script>
-  @endpush
-    @endsection
+@endpush
+@endsection

@@ -1,115 +1,98 @@
 @extends('admin.layouts.main')
-@section('content')
 @section('title', 'Plan Purchases')
 
 @push('style')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/dist/css/jquery.dataTables.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}" />
 <!-- Select2 -->
-<link rel="stylesheet" href="{{ asset('assets/admin/plugins/select2/css/select2.min.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/admin/css/select2.min.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/admin/css/select2-bootstrap-5-theme.min.css') }}" />
 <!-- Daterangepicker -->
-<link rel="stylesheet" href="{{ asset('assets/admin/plugins/daterangepicker/daterangepicker.css') }}" />
-
+<link rel="stylesheet" href="{{ asset('assets/admin/css/daterangepicker.css') }}" />
 @endpush
 
-<!-- Content Header (Page header) -->
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0">Plan Purchases</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Plan Purchases</li>
-                </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-</div>
-<!-- /.content-header -->
+@section('content')
 
-<!-- Main content -->
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Plan Purchases List</h3>
-                        <div class="float-right">
-                            <a href="{{ route('admin.plan-purchase.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> Add</a>
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <!-- Filters -->
-                        <div class="row mb-3">
-                            <div class="col-md-3">
-                                <label for="filter_user">User</label>
-                                <select class="form-control" id="filter_user">
-                                    <option value="">All Users</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="filter_plan">Plan</label>
-                                <select class="form-control" id="filter_plan">
-                                    <option value="">All Plans</option>
-                                    @foreach($plans as $plan)
-                                    <option value="{{ $plan->id }}">{{ $plan->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="filter_status">Status</label>
-                                <select class="form-control" id="filter_status">
-                                    <option value="">All Status</option>
-                                    @foreach (config('const.plan_purchase_status') as $status)
-                                    <option value="{{ $status }}">{{ $status }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="filter_date_range">Date Range</label>
-                                <input type="text" class="form-control" id="filter_date_range" placeholder="Select date range" readonly />
-                            </div>
-                        </div>
-                        <!-- /.filters -->
-                    </div>
-                    <div class="card-body table-responsive">
-                        <table class="table table-hover text-nowrap w-100" id="data-table">
-                            <thead>
-                                <tr>
-                                    <th>User</th>
-                                    <th>Plan</th>
-                                    <th>Price</th>
-                                    <th>Duration</th>
-                                    <th>Dates</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Plan Purchases</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Purchases</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center bg-white">
+        <h5 class="m-0 font-weight-bold text-primary">All Purchases</h5>
+        <a href="{{ route('admin.plan-purchase.create') }}" class="btn btn-primary btn-sm">
+            <i class="bi bi-plus-lg me-1"></i> Add Purchase
+        </a>
+    </div>
+    <div class="card-body">
+        <!-- Filters -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <label for="filter_user" class="form-label fw-bold">User</label>
+                <select class="form-select" id="filter_user">
+                    <option value="">All Users</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="filter_plan" class="form-label fw-bold">Plan</label>
+                <select class="form-select" id="filter_plan">
+                    <option value="">All Plans</option>
+                    @foreach($plans as $plan)
+                    <option value="{{ $plan->id }}">{{ $plan->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="filter_status" class="form-label fw-bold">Status</label>
+                <select class="form-select" id="filter_status">
+                    <option value="">All Status</option>
+                    @foreach (config('const.plan_purchase_status') as $status)
+                    <option value="{{ $status }}">{{ $status }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="filter_date_range" class="form-label fw-bold">Date Range</label>
+                <input type="text" class="form-control" id="filter_date_range" placeholder="Select date range" readonly />
             </div>
         </div>
+        <!-- /.filters -->
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="data-table" width="100%" cellspacing="0">
+                <thead class="table-light">
+                    <tr>
+                        <th>User</th>
+                        <th>Plan</th>
+                        <th>Price</th>
+                        <th>Duration</th>
+                        <th>Dates</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
-</section>
-<!-- /.content -->
+</div>
+
+@endsection
 
 @push('js')
-<script src="{{ asset('assets/admin/plugins/moment/moment.min.js') }}"></script>
-<script src="{{ asset('assets/admin/plugins/daterangepicker/daterangepicker.js') }}"></script>
-<script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="{{ asset('assets/admin/js/moment.min.js') }}"></script>
+<script src="{{ asset('assets/admin/js/daterangepicker.min.js') }}"></script>
+<script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
 <!-- Select2 -->
-<script src="{{ asset('assets/admin/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/admin/js/select2.min.js') }}"></script>
 <!-- Sweet Alert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -117,7 +100,7 @@
     $(function() {
         // Initialize Select2 for user filter with AJAX
         $('#filter_user').select2({
-            theme: 'bootstrap4',
+            theme: 'bootstrap-5',
             placeholder: 'Search users...',
             allowClear: true,
             width: '100%',
@@ -138,6 +121,12 @@
                 cache: true
             },
             minimumInputLength: 2 // Require at least 2 characters before searching
+        });
+
+        // Initialize Select2 for others to match style (optional but good for consistency)
+        $('#filter_plan, #filter_status').select2({
+            theme: 'bootstrap-5',
+            width: '100%'
         });
 
         // Initialize Date Range Picker
@@ -168,6 +157,7 @@
             $(this).val('');
             table.draw();
         });
+
         var table = $('#data-table').DataTable({
             processing: true,
             serverSide: true,
@@ -187,7 +177,10 @@
                     }
                 }
             },
-            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search purchases..."
+            },
             columns: [{
                     data: 'user_name',
                     name: 'user_name'
@@ -235,12 +228,12 @@
     function destroy(url, id) {
         Swal.fire({
                 title: 'Are you sure?',
-                icon: 'error',
-                html: "You want to delete this plan purchase?",
-                allowOutsideClick: false,
+                text: "You want to delete this plan purchase?",
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Delete',
-                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Delete'
             })
             .then((result) => {
                 if (result.isConfirmed) {
@@ -248,34 +241,20 @@
                         url: url,
                         type: "POST",
                         data: {
-                            '_method': 'DELETE'
-                        },
-                        dataType: "json",
-                        headers: {
-                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                        },
-                        beforeSend: function() {
-                            $('.btn_delete-' + id + ' #buttonText').addClass('d-none');
-                            $('.btn_delete-' + id + ' #loader').removeClass('d-none');
-                            $('.btn_delete-' + id).prop('disabled', true);
+                            '_method': 'DELETE',
+                            '_token': "{{ csrf_token() }}"
                         },
                         success: function(result) {
                             if (result.success) {
-                                toastr.success(result.message);
-                                location.reload()
+                                // toastr.success(result.message);
+                                $('#data-table').DataTable().ajax.reload();
+                                Swal.fire('Deleted!', result.message, 'success');
                             } else {
-                                toastr.error(result.message);
+                                Swal.fire('Error', result.message, 'error');
                             }
-                            $('.btn_action-' + id + ' #buttonText').removeClass('d-none');
-                            $('.btn_action-' + id + ' #loader').addClass('d-none');
-                            $('.btn_action-' + id).prop('disabled', false);
                         },
                         error: function(e) {
-                            toastr.error('Somthing Wrong');
-                            console.log(e);
-                            $('.btn_action-' + id + ' #buttonText').removeClass('d-none');
-                            $('.btn_action-' + id + ' #loader').addClass('d-none');
-                            $('.btn_action-' + id).prop('disabled', false);
+                            Swal.fire('Error', 'Something went wrong', 'error');
                         }
                     });
                 }
@@ -283,4 +262,3 @@
     }
 </script>
 @endpush
-@endsection

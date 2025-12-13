@@ -1,93 +1,53 @@
 @extends('admin.layouts.main')
 @section('content')
-@section('title', 'Edit Faq')
+@section('title', 'Create FAQ')
 
-@push('style')
-<!-- summernote -->
-
-@endpush
-
-<!-- Content Header (Page header) -->
-<div class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1 class="m-0">Create Faq</h1>
-      </div><!-- /.col -->
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-          <li class="breadcrumb-item"><a href="{{ route('admin.user.index') }}">Faqs list</a></li>
-          <li class="breadcrumb-item active">Create Faq</li>
-        </ol>
-      </div><!-- /.col -->
-    </div><!-- /.row -->
-  </div><!-- /.container-fluid -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Create FAQ</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.faq.index') }}" class="text-decoration-none">FAQs List</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create FAQ</li>
+      </ol>
+    </nav>
+  </div>
 </div>
-<!-- /.content-header -->
 
-<!-- Main content -->
 <section class="content">
-  <div class="row">
+  <div class="row justify-content-center">
     <div class="col-md-12">
-      <div class="card card-outline card-info">
-        <div class="card-header">
-          <h3 class="card-title">
-            Create Faq
-          </h3>
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 bg-white">
+          <h5 class="m-0 font-weight-bold text-primary">Create FAQ</h5>
         </div>
-        <!-- /.card-header -->
         <div class="card-body">
           <form action="{{ route('admin.faq.store') }}" data-action="redirect" class="row formaction">
             @csrf
             <input type="hidden" name="_method" value="POST">
 
-            <div class="col-md-12">
-              <div class="form-group">
-                <label>Question <span class="error">*</span></label>
-                <input type="text" class="form-control" name="question" placeholder="Question" />
-              </div>
+            <div class="col-md-12 mb-3">
+              <label class="form-label">Question <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="question" placeholder="Enter Question" />
             </div>
 
-            <div class="col-md-12">
-              <div class="form-group">
-                <label>Answer <span class="error">*</span></label>
-                <textarea class="form-control" name="answer" placeholder="Answer"></textarea>
-              </div>
+            <div class="col-md-12 mb-3">
+              <label class="form-label">Answer <span class="text-danger">*</span></label>
+              <textarea class="form-control" name="answer" rows="4" placeholder="Enter Answer"></textarea>
             </div>
 
-            <div class="col-sm-12 text-right">
-              <button class="btn btn-danger" type="button" onclick="history.back()">Back</button>
+            <div class="col-12 d-flex justify-content-end gap-2 mt-3">
+              <button class="btn btn-secondary" type="button" onclick="history.back()">Back</button>
               <button class="btn btn-primary btn_action" type="submit">
                 <span id="loader" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                 <span id="buttonText">Submit</span>
               </button>
-
             </div>
           </form>
         </div>
       </div>
     </div>
-    <!-- /.col-->
   </div>
 </section>
-<!-- /.content -->
-
-@push('js')
-
-<script>
-  $('.avtar_input').on('change', function(event) {
-    var input = event.target;
-    var image = $('.avtar_img');
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        image.attr('src', e.target.result);
-      }
-      reader.readAsDataURL(input.files[0]);
-    }
-  })
-</script>
-
-@endpush
 @endsection

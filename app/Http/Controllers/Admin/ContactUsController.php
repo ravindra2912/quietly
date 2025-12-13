@@ -19,9 +19,9 @@ class ContactUsController extends Controller
                     return $row->created_at->format('d-m-Y H:i A');
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<div class="d-flex align-items-center gap-3">
-                        <a href="javascript:void(0)" data-id="' . $row->id . '" class="btn btn-info btn-sm view_record" title="View"><i class="fas fa-eye"></i></a>
-                        <a href="javascript:void(0)" data-url="' . route('admin.contact-us.destroy', $row->id) . '" class="btn btn-danger btn-sm delete_record" title="Delete"><i class="fas fa-trash"></i></a>
+                    $btn = '<div class="d-flex align-items-center gap-2 justify-content-center">
+                        <a href="javascript:void(0)" data-id="' . $row->id . '" class="btn btn-outline-info btn-sm view_record" title="View"><i class="bi bi-eye-fill"></i></a>
+                        <a href="javascript:void(0)" data-url="' . route('admin.contact-us.destroy', $row->id) . '" class="btn btn-outline-danger btn-sm delete_record" title="Delete"><i class="bi bi-trash-fill"></i></a>
                     </div>';
                     return $btn;
                 })

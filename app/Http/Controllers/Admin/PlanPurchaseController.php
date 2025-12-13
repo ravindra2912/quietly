@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Validator;
 
+use Illuminate\Support\Facades\Auth;
+
 class PlanPurchaseController extends Controller
 {
     public function index(Request $request)
@@ -60,9 +62,9 @@ class PlanPurchaseController extends Controller
                     $url = route('admin.plan-purchase.destroy', $row->id);
                     $url = "'" . $url . "'";
                     return ' <div class="text-center">
-                    <a href="' . route('admin.plan-purchase.edit', $row->id) . '" class="btn btn-outline-primary btn-sm" title="edit"><i class="far fa-edit"></i></a>
+                    <a href="' . route('admin.plan-purchase.edit', $row->id) . '" class="btn btn-outline-primary btn-sm" title="edit"><i class="bi bi-pencil-fill"></i></a>
                     <button onclick="destroy(' . $url . ', ' . $row->id . ')" class="btn btn-outline-danger btn-sm btn_delete-' . $row->id . '" title="Delete">
-                        <i id="buttonText" class="far fa-trash-alt"></i>
+                        <i id="buttonText" class="bi bi-trash-fill"></i>
                         <span id="loader" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                     </button>
                     </div>';
@@ -140,7 +142,7 @@ class PlanPurchaseController extends Controller
                 $insert->expired_at = \Carbon\Carbon::parse($request->start_at)->addMonths($plan->duration_in_month);
                 $insert->price = $plan->price;
                 $insert->plan_info = $plan->toArray();
-                $insert->payment_details = ['source' => 'admin', 'created_by' => auth()->user()->email];
+                $insert->payment_details = ['source' => 'admin', 'created_by' => Auth::user()->email];
                 $insert->status = $request->status;
                 $insert->save();
 

@@ -1,209 +1,168 @@
 @extends('admin.layouts.main')
-@section('content')
 @section('title', 'Edit User')
 
-  @push('style')
-    <!-- summernote -->
-    <style>
-      .avtar_img {
-        height: 160px;
-        width: 160px;
-        object-fit: contain;
-        border-radius: 20px;
-      }
+@push('style')
+<style>
+  .avtar_img {
+    height: 160px;
+    width: 160px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+  }
 
-      .avtar {
-        border: 1px solid #ced4da;
-        border-radius: 10px;
-        width: fit-content;
-        padding: 10px;
-        text-align: center;
-        position: relative;
-        margin: 0 auto;
-      }
+  .avtar {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto;
+  }
 
-      .avtar label {
-        position: absolute;
-        bottom: -10px;
-        right: -10px;
-        background: var(--primary);
-        color: white;
-        padding: 8px;
-        border-radius: 50%;
-        cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
-        top: auto;
-      }
+  .avtar label {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: var(--primary-color);
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+  }
 
-      .avtar label:hover {
-        transform: scale(1.1);
-      }
+  .avtar label:hover {
+    transform: scale(1.1);
+    background: var(--bs-primary-dark);
+  }
 
-      .avtar_input {
-        opacity: 0;
-        height: 0px;
-        position: absolute;
-      }
-    </style>
-  @endpush
+  .avtar_input {
+    display: none;
+  }
+</style>
+@endpush
 
-  <!-- Content Header (Page header) -->
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0">Edit User</h1>
-        </div><!-- /.col -->
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.user.index') }}">Users list</a></li>
-            <li class="breadcrumb-item active">Edit User</li>
-          </ol>
-        </div><!-- /.col -->
-      </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+@section('content')
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Edit User</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.user.index') }}" class="text-decoration-none">Users list</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit User</li>
+      </ol>
+    </nav>
   </div>
-  <!-- /.content-header -->
+</div>
 
-  <!-- Main content -->
-  <section class="content">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card card-outline card-info">
-          <div class="card-header">
-            <h3 class="card-title">
-              Edit User
-            </h3>
+<div class="card shadow mb-4">
+  <div class="card-header py-3 bg-white">
+    <h5 class="m-0 font-weight-bold text-primary">Edit User</h5>
+  </div>
+  <div class="card-body">
+    <form action="{{ route('admin.user.update', $user->id) }}" data-action="back" class="formaction" method="POST" enctype="multipart/form-data">
+      @csrf
+      @method('PATCH')
+
+      <div class="row g-4 mb-4">
+        <!-- Left Side: Avatar & Account Details -->
+        <div class="col-md-4">
+          <div class="text-center mb-4">
+            <div class="avtar">
+              <img src="{{ getImage($user->profile_image) }}" class="avtar_img" alt="User Avatar" />
+              <label for="profile" title="Change Image"><i class="bi bi-pencil-fill"></i></label>
+              <input type="file" name="profile" class="avtar_input" id="profile" accept="image/png, image/webp, image/jpeg" />
+            </div>
           </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-            <form action="{{ route('admin.user.update', $user->id) }}" data-action="back" class="row formaction">
-              @csrf
-              <input type="hidden" name="_method" value="PATCH">
-              <div class="col-md-12 row">
-                <div class="col-md-4 " style="justify-items: center;">
-                  <div class="avtar">
-                    <img src="{{ getImage($user->profile_image) }}" class="avtar_img" />
-                    <label for="profile" title="Change Image"><i class="far fa-edit"></i></label>
-                  </div>
-                  <input type="file" name="profile" class="avtar_input" id="profile"
-                    accept="image/png, image/webp, image/jpeg" />
-                </div>
+        </div>
 
-                <div class="col-md-8 row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>First name <span class="error">*</span></label>
-                      <input type="text" class="form-control" value="{{ $user->first_name }}" name="first_name"
-                        placeholder="First name" />
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Last name <span class="error">*</span></label>
-                      <input type="text" class="form-control" value="{{ $user->last_name }}" name="last_name"
-                        placeholder="Last name" />
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Email <span class="error">*</span></label>
-                      <input type="text" class="form-control" value="{{ $user->email }}" name="email"
-                        placeholder="Email" />
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Contact <span class="error">*</span></label>
-                      <input type="text" class="form-control" value="{{ $user->phone }}" name="contact"
-                        placeholder="Contact" />
-                    </div>
-                  </div>
-                </div>
+        <!-- Right Side: Personal Information -->
+        <div class="col-md-8">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">First Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control required" name="first_name" value="{{ $user->first_name }}" placeholder="First Name" />
               </div>
+            </div>
 
-
-              <!-- <div class="col-md-4">
-                <div class="form-group">
-                  <label>DOB </label>
-                  <input type="date" class="form-control" value="{{ $user->dob }}" name="dob" placeholder="DOB" />
-                </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control required" name="last_name" value="{{ $user->last_name }}" placeholder="Last Name" />
               </div>
+            </div>
 
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label>Gender </label>
-                  <select class="form-control" name="gender">
-                    <option value="">Select gender</option>
-                    @foreach ( config('const.gender') as $gender)
-                    <option value="{{ $gender }}" {{ $gender == $user->gender ? 'selected':'' }}>{{ $gender }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div> -->
-
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label>Status <span class="error">*</span></label>
-                  <select class="form-control" name="status">
-                    <option value="">Select status</option>
-                    @foreach (config('const.user_status') as $status)
-                      <option value="{{ $status }}" {{ $status == $user->status ? 'selected' : '' }}>{{ $status }}</option>
-                    @endforeach
-                  </select>
-                </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">Email <span class="text-danger">*</span></label>
+                <input type="email" class="form-control required" name="email" value="{{ $user->email }}" placeholder="Email Address" />
               </div>
+            </div>
 
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label>Role <span class="error">*</span></label>
-                  <select class="form-control" name="role_id">
-                    <option value="">Select Role</option>
-                    @foreach (config('const.user_role') as $role)
-                      <option value="{{ $role }}" {{ $role == $user->role ? 'selected' : '' }}>{{ $role }}</option>
-                    @endforeach
-                  </select>
-                </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">Contact <span class="text-danger">*</span></label>
+                <input type="text" class="form-control required" name="contact" value="{{ $user->phone }}" placeholder="Phone Number" />
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 row">
+          <div class="col-4">
+            <label class="form-label">Status <span class="text-danger">*</span></label>
+            <select class="form-select required" name="status">
+              <option value="">Select Status</option>
+              @foreach (config('const.user_status') as $status)
+              <option value="{{ $status }}" {{ $status == $user->status ? 'selected' : '' }}>{{ $status }}</option>
+              @endforeach
+            </select>
+          </div>
 
-              <div class="col-sm-12 text-right">
-                <button class="btn btn-danger" type="button" onclick="history.back()">Back</button>
-                <button class="btn btn-primary btn_action" type="submit">
-                  <span id="loader" class="spinner-border spinner-border-sm d-none" role="status"
-                    aria-hidden="true"></span>
-                  <span id="buttonText">Submit</span>
-                </button>
-
-              </div>
-            </form>
+          <div class="col-4">
+            <label class="form-label">Role <span class="text-danger">*</span></label>
+            <select class="form-select required" name="role_id">
+              <option value="">Select Role</option>
+              @foreach (config('const.user_role') as $role)
+              <option value="{{ $role }}" {{ $role == $user->role ? 'selected' : '' }}>{{ $role }}</option>
+              @endforeach
+            </select>
           </div>
         </div>
       </div>
-      <!-- /.col-->
-    </div>
-  </section>
-  <!-- /.content -->
 
-  @push('js')
+      <div class="d-flex justify-content-end gap-2">
+        <button class="btn btn-secondary" type="button" onclick="history.back()">Back</button>
+        <button class="btn btn-primary btn_action" type="submit">
+          <span id="loader" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+          <span id="buttonText">Submit</span>
+        </button>
+      </div>
 
-    <script>
-      $('.avtar_input').on('change', function (event) {
-        var input = event.target;
-        var image = $('.avtar_img');
-        if (input.files && input.files[0]) {
-          var reader = new FileReader();
-          reader.onload = function (e) {
-            image.attr('src', e.target.result);
-          }
-          reader.readAsDataURL(input.files[0]);
-        }
-      })
-    </script>
+    </form>
+  </div>
+</div>
 
-  @endpush
 @endsection
+
+@push('js')
+<script>
+  $('.avtar_input').on('change', function(event) {
+    var input = event.target;
+    var image = $('.avtar_img');
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        image.attr('src', e.target.result);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  })
+</script>
+@endpush

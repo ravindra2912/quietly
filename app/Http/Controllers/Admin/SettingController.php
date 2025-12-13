@@ -31,7 +31,7 @@ class SettingController extends Controller
     {
         $success = false;
         $message = 'Something Wrong!';
-        $redirect = Route('admin.user.index');
+        $redirect = route('admin.setting.profile');
         $data = array();
 
         try {
@@ -39,8 +39,8 @@ class SettingController extends Controller
                 'profile' => 'nullable|mimes:jpg,jpeg,png,webp|',
                 'first_name' => 'required',
                 'last_name' => 'required',
-                'email' => 'required|email|unique:users,email,'.$id,
-                'contact' => 'required|numeric|unique:users,phone,'.$id,
+                'email' => 'required|email|unique:users,email,' . $id,
+                'contact' => 'required|numeric|unique:users,phone,' . $id,
                 'password' => 'nullable|min:6'
             ];
 
@@ -63,10 +63,10 @@ class SettingController extends Controller
                 $update->last_name = $request->last_name;
                 $update->email = $request->email;
                 $update->phone = $request->contact;
-                if(!empty($request->password)){
+                if (!empty($request->password)) {
                     $update->password = Hash::make($request->password);
                 }
-                
+
                 $update->save();
 
                 // Remove old uploaded image if exist
@@ -85,7 +85,4 @@ class SettingController extends Controller
         }
         return response()->json(['success' => $success, 'message' => $message, 'data' => $data, 'redirect' => $redirect]);
     }
-    
-
-    
 }

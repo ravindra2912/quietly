@@ -1,48 +1,32 @@
 @extends('admin.layouts.main')
 @section('content')
-@section('title', 'Faqs Page')
+@section('title', 'SEO List')
 
 @push('style')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/dist/css/jquery.dataTables.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}" />
 @endpush
 
-
-<!-- Content Header (Page header) -->
-<div class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1 class="m-0">Faqs list</h1>
-      </div><!-- /.col -->
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-          <li class="breadcrumb-item active">Seo list</li>
-        </ol>
-      </div><!-- /.col -->
-    </div><!-- /.row -->
-  </div><!-- /.container-fluid -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="h4 mb-0">SEO List</h2>
+  <ol class="breadcrumb m-0">
+    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+    <li class="breadcrumb-item active">SEO List</li>
+  </ol>
 </div>
-<!-- /.content-header -->
 
-
-<!-- Main content -->
 <section class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Seo list</h3>
-            <div class="float-right">
-              <a href="{{ route('admin.seo.create') }}" class="btn btn-primary"><i class="fas fa-user-plus"></i> Add</a>
-            </div>
-          </div>
-          <!-- /.card-header -->
-          <div class="card-body table-responsive">
-
-            <table class="table table-hover text-nowrap w-100"  id="data-table">
-              <thead>
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">SEO List</h6>
+          <a href="{{ route('admin.seo.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add SEO</a>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="data-table" width="100%" cellspacing="0">
+              <thead class="table-light">
                 <tr>
                   <th>URL</th>
                   <th>Title</th>
@@ -50,37 +34,32 @@
                 </tr>
               </thead>
               <tbody>
-
               </tbody>
             </table>
           </div>
-          <!-- /.card-body -->
         </div>
-        <!-- /.card -->
       </div>
     </div>
-
   </div>
 </section>
-<!-- /.content -->
-
-
 
 @push('js')
-<script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<!-- Sweet Alert -->
+<script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <script type="text/javascript">
   $(function() {
     var table = $('#data-table').DataTable({
       processing: true,
       serverSide: true,
       ajax: "{{ route('admin.seo.index') }}",
+      language: {
+        search: "_INPUT_",
+        searchPlaceholder: "Search seo..."
+      },
       columns: [{
           data: 'site_url',
           name: 'site_url'
-        },{
+        }, {
           data: 'meta_title',
           name: 'meta_title'
         },
@@ -94,8 +73,7 @@
     });
   });
 
-
-  // delete user
+  // delete
   function destroy(url, id) {
     Swal.fire({
         title: 'Are you sure?',
@@ -105,6 +83,11 @@
         showCancelButton: true,
         confirmButtonText: 'Delete',
         cancelButtonText: 'Cancel',
+        customClass: {
+          confirmButton: 'btn btn-danger me-2',
+          cancelButton: 'btn btn-secondary'
+        },
+        buttonsStyling: false
       })
       .then((result) => {
         if (result.isConfirmed) {
@@ -119,27 +102,27 @@
               'X-CSRF-TOKEN': "{{ csrf_token() }}"
             },
             beforeSend: function() {
-              $('.btn_delete-'+id+' #buttonText').addClass('d-none');
-              $('.btn_delete-'+id+' #loader').removeClass('d-none');
-              $('.btn_delete-'+id).prop('disabled', true);
+              $('.btn_delete-' + id + ' #buttonText').addClass('d-none');
+              $('.btn_delete-' + id + ' #loader').removeClass('d-none');
+              $('.btn_delete-' + id).prop('disabled', true);
             },
             success: function(result) {
               if (result.success) {
                 toastr.success(result.message);
-                location.reload()
+                $('#data-table').DataTable().ajax.reload();
               } else {
                 toastr.error(result.message);
               }
-              $('.btn_action-'+id+' #buttonText').removeClass('d-none');
-              $('.btn_action-'+id+' #loader').addClass('d-none');
-              $('.btn_action-'+id).prop('disabled', false);
+              $('.btn_delete-' + id + ' #buttonText').removeClass('d-none');
+              $('.btn_delete-' + id + ' #loader').addClass('d-none');
+              $('.btn_delete-' + id).prop('disabled', false);
             },
             error: function(e) {
-              toastr.error('Somthing Wrong');
+              toastr.error('Something went wrong');
               console.log(e);
-              $('.btn_action-'+id+' #buttonText').removeClass('d-none');
-              $('.btn_action-'+id+' #loader').addClass('d-none');
-              $('.btn_action-'+id).prop('disabled', false);
+              $('.btn_delete-' + id + ' #buttonText').removeClass('d-none');
+              $('.btn_delete-' + id + ' #loader').addClass('d-none');
+              $('.btn_delete-' + id).prop('disabled', false);
             }
           });
         }
