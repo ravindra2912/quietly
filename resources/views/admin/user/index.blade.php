@@ -3,6 +3,7 @@
 
 @push('style')
 <link rel="stylesheet" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/admin/css/datatable-custom.css') }}" />
 @endpush
 
 @section('content')
@@ -61,26 +62,42 @@
       processing: true,
       serverSide: true,
       ajax: "{{ route('admin.user.index') }}",
+      pageLength: 10,
+      lengthMenu: [
+        [10, 25, 50, 100],
+        [10, 25, 50, 100]
+      ],
       language: {
         search: "_INPUT_",
-        searchPlaceholder: "Search users..."
+        searchPlaceholder: "Search users...",
+        lengthMenu: "Show _MENU_ entries",
+        info: "Showing _START_ to _END_ of _TOTAL_ users",
+        infoEmpty: "Showing 0 to 0 of 0 users",
+        infoFiltered: "(filtered from _MAX_ total users)",
+        zeroRecords: "No matching users found",
+        emptyTable: "No users available"
       },
+      responsive: true,
+      autoWidth: false,
       columns: [{
           data: 'img',
           name: 'img',
           orderable: false,
           searchable: false,
+          className: 'text-center',
           render: function(data) {
-            return data ? data : '<div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center text-white" style="width:30px;height:30px;"><i class="bi bi-person"></i></div>';
+            return data ? data : '<div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center text-white mx-auto" style="width:35px;height:35px;"><i class="bi bi-person"></i></div>';
           }
         },
         {
           data: 'id',
-          name: 'id'
+          name: 'id',
+          className: 'text-muted'
         },
         {
           data: 'first_name',
-          name: 'first_name'
+          name: 'first_name',
+          className: 'fw-bold'
         },
         {
           data: 'last_name',
@@ -88,7 +105,8 @@
         },
         {
           data: 'email',
-          name: 'email'
+          name: 'email',
+          className: 'text-muted'
         },
         {
           data: 'phone',
@@ -98,7 +116,8 @@
           data: 'action',
           name: 'action',
           orderable: false,
-          searchable: false
+          searchable: false,
+          className: 'text-center'
         },
       ]
     });

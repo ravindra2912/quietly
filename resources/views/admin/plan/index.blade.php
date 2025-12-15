@@ -3,6 +3,7 @@
 
 @push('style')
 <link rel="stylesheet" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/admin/css/datatable-custom.css') }}" />
 @endpush
 
 @section('content')
@@ -60,45 +61,65 @@
             processing: true,
             serverSide: true,
             ajax: "{{ route('admin.plan.index') }}",
+            pageLength: 10,
+            lengthMenu: [
+                [10, 25, 50, 100],
+                [10, 25, 50, 100]
+            ],
             language: {
                 search: "_INPUT_",
-                searchPlaceholder: "Search plans..."
+                searchPlaceholder: "Search plans...",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ plans",
+                infoEmpty: "Showing 0 to 0 of 0 plans",
+                infoFiltered: "(filtered from _MAX_ total plans)",
+                zeroRecords: "No matching plans found",
+                emptyTable: "No plans available"
             },
+            responsive: true,
+            autoWidth: false,
             columns: [{
                     data: 'name',
-                    name: 'name'
+                    name: 'name',
+                    className: 'fw-bold'
                 },
                 {
                     data: 'price',
-                    name: 'price'
+                    name: 'price',
+                    className: 'text-success fw-bold'
                 },
                 {
                     data: 'duration_in_month',
-                    name: 'duration_in_month'
+                    name: 'duration_in_month',
+                    className: 'text-center'
                 },
                 {
                     data: 'is_ad_free',
                     name: 'is_ad_free',
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    className: 'text-center'
                 },
                 {
                     data: 'is_active_multiple_group',
                     name: 'is_active_multiple_group',
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    className: 'text-center'
                 },
                 {
                     data: 'status',
                     name: 'status',
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    className: 'text-center'
                 },
                 {
                     data: 'action',
                     name: 'action',
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    className: 'text-center'
                 },
             ]
         });

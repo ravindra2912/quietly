@@ -3,6 +3,7 @@
 
 @push('style')
 <link rel="stylesheet" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/admin/css/datatable-custom.css') }}" />
 <!-- Select2 -->
 <link rel="stylesheet" href="{{ asset('assets/admin/css/select2.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/admin/css/select2-bootstrap-5-theme.min.css') }}" />
@@ -177,13 +178,27 @@
                     }
                 }
             },
+            pageLength: 10,
+            lengthMenu: [
+                [10, 25, 50, 100],
+                [10, 25, 50, 100]
+            ],
             language: {
                 search: "_INPUT_",
-                searchPlaceholder: "Search purchases..."
+                searchPlaceholder: "Search purchases...",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ purchases",
+                infoEmpty: "Showing 0 to 0 of 0 purchases",
+                infoFiltered: "(filtered from _MAX_ total purchases)",
+                zeroRecords: "No matching purchases found",
+                emptyTable: "No purchases available"
             },
+            responsive: true,
+            autoWidth: false,
             columns: [{
                     data: 'user_name',
-                    name: 'user_name'
+                    name: 'user_name',
+                    className: 'fw-bold'
                 },
                 {
                     data: 'plan_name',
@@ -191,29 +206,34 @@
                 },
                 {
                     data: 'price',
-                    name: 'price'
+                    name: 'price',
+                    className: 'text-success fw-bold'
                 },
                 {
                     data: 'duration_in_month',
-                    name: 'duration_in_month'
+                    name: 'duration_in_month',
+                    className: 'text-center'
                 },
                 {
                     data: 'dates',
                     name: 'dates',
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    className: 'text-muted small'
                 },
                 {
                     data: 'status',
                     name: 'status',
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    className: 'text-center'
                 },
                 {
                     data: 'action',
                     name: 'action',
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    className: 'text-center'
                 },
             ]
         });

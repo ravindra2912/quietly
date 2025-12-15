@@ -3,6 +3,7 @@
 
 @push('style')
 <link rel="stylesheet" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/admin/css/datatable-custom.css') }}" />
 @endpush
 
 @section('content')
@@ -57,32 +58,49 @@
             processing: true,
             serverSide: true,
             ajax: "{{ route('admin.blog.index') }}",
+            pageLength: 10,
+            lengthMenu: [
+                [10, 25, 50, 100],
+                [10, 25, 50, 100]
+            ],
             language: {
                 search: "_INPUT_",
-                searchPlaceholder: "Search blogs..."
+                searchPlaceholder: "Search blogs...",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ blogs",
+                infoEmpty: "Showing 0 to 0 of 0 blogs",
+                infoFiltered: "(filtered from _MAX_ total blogs)",
+                zeroRecords: "No matching blogs found",
+                emptyTable: "No blogs available"
             },
+            responsive: true,
+            autoWidth: false,
             columns: [{
                     data: 'image',
                     name: 'image',
                     orderable: false,
                     searchable: false,
+                    className: 'text-center',
                     render: function(data) {
-                        return data ? data : '';
+                        return data ? data : '<span class="text-muted">No image</span>';
                     }
                 },
                 {
                     data: 'title',
-                    name: 'title'
+                    name: 'title',
+                    className: 'fw-bold'
                 },
                 {
                     data: 'published_at',
-                    name: 'published_at'
+                    name: 'published_at',
+                    className: 'text-muted'
                 },
                 {
                     data: 'action',
                     name: 'action',
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    className: 'text-center'
                 },
             ]
         });
