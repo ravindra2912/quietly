@@ -36,11 +36,11 @@ class SettingController extends Controller
 
         try {
             $rules = [
-                'profile' => 'nullable|mimes:jpg,jpeg,png,webp|',
-                'first_name' => 'required',
-                'last_name' => 'required',
+                'profile' => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $id,
-                'contact' => 'required|numeric|unique:users,phone,' . $id,
+                'contact' => 'required|numeric|digits_between:10,15|unique:users,phone,' . $id,
                 'password' => 'nullable|min:6'
             ];
 
@@ -50,8 +50,12 @@ class SettingController extends Controller
                 $message = $validator->errors();
                 // $message = $validator->errors()->first();
             } else {
-
                 $update = User::find($id);
+
+                if (!$update) {
+                    $message = 'User not found.';
+                    return response()->json(['success' => $success, 'message' => $message, 'data' => $data, 'redirect' => $redirect]);
+                }
 
                 if ($request->hasFile('profile')) {
                     $oldimage = $update->profile_image;
@@ -70,12 +74,12 @@ class SettingController extends Controller
                 $update->save();
 
                 // Remove old uploaded image if exist
-                if (isset($oldimage)) {
+                if (isset($oldimage) && !empty($oldimage)) {
                     fileRemoveStorage($oldimage);
                 }
 
                 $success = true;
-                $message = 'User updated successfully.';
+                $message = 'Profile updated successfully.';
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

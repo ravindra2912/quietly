@@ -73,7 +73,7 @@
         <!-- Avatar Section -->
         <div class="col-md-12 text-center">
           <div class="avtar">
-            <img src="{{ getImage($user->profile) }}" class="avtar_img" alt="Profile Image" />
+            <img src="{{ getImage($user->profile_image) }}" class="avtar_img" alt="Profile Image" />
             <label for="profile" title="Change Image"><i class="bi bi-pencil-fill"></i></label>
           </div>
           <input type="file" name="profile" class="avtar_input" id="profile" accept="image/png, image/webp, image/jpeg" />
@@ -103,7 +103,7 @@
         <div class="col-md-6">
           <div class="mb-3">
             <label class="form-label">Contact <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" value="{{ $user->contact }}" name="contact" placeholder="Phone Number" required />
+            <input type="text" class="form-control" value="{{ $user->phone }}" name="contact" placeholder="Phone Number" required />
           </div>
         </div>
 
