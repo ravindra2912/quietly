@@ -1,4 +1,4 @@
-<div class="bg-white" id="sidebar-wrapper">
+<div class="" id="sidebar-wrapper">
   <div class="sidebar-heading text-center py-2 primary-text fs-4 fw-bold text-uppercase border-bottom text-dark">
     {{ config('const.site_setting.name') }}
   </div>

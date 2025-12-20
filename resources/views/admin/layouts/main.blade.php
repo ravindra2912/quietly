@@ -54,8 +54,32 @@
     document.getElementById("menu-toggle")?.addEventListener("click", function(e) {
       e.preventDefault();
       document.getElementById("wrapper").classList.toggle("toggled");
-      // Simple toggle implementation logic would go in CSS or here
-      // For basic bootstrap grid sidebar, we might hide/show col
+    });
+
+    // Dark Mode Toggle
+    const toggleButton = document.getElementById('dark-mode-toggle');
+    const icon = toggleButton.querySelector('i');
+    const html = document.documentElement;
+
+    // Load saved theme
+    if (localStorage.getItem('theme') === 'dark') {
+      html.setAttribute('data-theme', 'dark');
+      icon.classList.remove('bi-moon');
+      icon.classList.add('bi-sun');
+    }
+
+    toggleButton.addEventListener('click', function() {
+      if (html.getAttribute('data-theme') === 'dark') {
+        html.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        icon.classList.remove('bi-sun');
+        icon.classList.add('bi-moon');
+      } else {
+        html.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        icon.classList.remove('bi-moon');
+        icon.classList.add('bi-sun');
+      }
     });
   </script>
 

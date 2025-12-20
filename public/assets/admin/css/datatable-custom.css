@@ -69,7 +69,6 @@
 
 .dataTables_wrapper table.dataTable tbody tr:hover {
     background-color: #f8f9fc;
-    transform: scale(1.005);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
@@ -80,6 +79,40 @@
 .dataTables_wrapper table.dataTable.table-striped tbody tr.even {
     background-color: #f8f9fc;
 }
+
+/* Dark Mode DataTable Overrides */
+[data-theme="dark"] .dataTables_wrapper table.dataTable tbody tr {
+    background-color: var(--bg-card) !important;
+}
+
+[data-theme="dark"] .dataTables_wrapper table.dataTable tbody tr:hover {
+    background-color: var(--table-row-hover) !important;
+}
+
+[data-theme="dark"] .dataTables_wrapper table.dataTable.table-striped tbody tr.odd {
+    background-color: var(--bg-card) !important;
+}
+
+[data-theme="dark"] .dataTables_wrapper table.dataTable.table-striped tbody tr.even {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+[data-theme="dark"] .dataTables_wrapper table.dataTable tbody td {
+    border-bottom-color: var(--border-color);
+    color: var(--text-color);
+    background-color: inherit !important;
+    /* Ensure td takes the tr background */
+}
+
+/* Fix Sorted Column Background in Dark Mode */
+[data-theme="dark"] .dataTables_wrapper table.dataTable tbody tr>.sorting_1,
+[data-theme="dark"] .dataTables_wrapper table.dataTable tbody tr>.sorting_2,
+[data-theme="dark"] .dataTables_wrapper table.dataTable tbody tr>.sorting_3 {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+
 
 /* ========================================
    Search Input Styling
@@ -279,6 +312,11 @@
     to {
         transform: rotate(360deg);
     }
+}
+
+/* Hide default DataTables loader animation */
+.dataTables_wrapper .dataTables_processing>div {
+    display: none !important;
 }
 
 /* ========================================
