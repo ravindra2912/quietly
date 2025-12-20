@@ -7,13 +7,13 @@
   <title>{{ config('const.site_setting.name') }} | Admin</title>
 
   <!-- Bootstrap 5 CSS -->
-  <link href="{{ asset('assets/admin/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/admin/css/bootstrap.min.css') }}?v={{ filemtime(public_path('assets/admin/css/bootstrap.min.css')) }}" rel="stylesheet">
   <!-- Bootstrap Icons -->
-  <link href="{{ asset('assets/admin/css/bootstrap-icons.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/admin/css/bootstrap-icons.min.css') }}?v={{ filemtime(public_path('assets/admin/css/bootstrap-icons.min.css')) }}" rel="stylesheet">
   <!--Toastr -->
-  <link href="{{ asset('assets/ajax/toastr.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/ajax/toastr.css') }}?v={{ filemtime(public_path('assets/ajax/toastr.css')) }}" rel="stylesheet" />
   <!-- Custom Admin CSS -->
-  <link href="{{ asset('assets/admin/css/style.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/admin/css/style.css') }}?v={{ filemtime(public_path('assets/admin/css/style.css')) }}" rel="stylesheet">
 
   <meta name="csrf-token" content="{{ csrf_token() }}">
   @stack('style')
@@ -41,13 +41,13 @@
   </div>
 
   <!-- Bootstrap 5 JS Bundle -->
-  <script src="{{ asset('assets/admin/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('assets/admin/js/bootstrap.bundle.min.js') }}?v={{ filemtime(public_path('assets/admin/js/bootstrap.bundle.min.js')) }}"></script>
   <!-- jQuery (Still useful for some plugins) -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
   <!-- Toastr & Custom JS if needed -->
-  <script src="{{ asset('assets/ajax/toastr.min.js') }}"></script>
-  <script src="{{ asset('assets/ajax/ajax.js') }}"></script>
+  <script src="{{ asset('assets/ajax/toastr.min.js') }}?v={{ filemtime(public_path('assets/ajax/toastr.min.js')) }}"></script>
+  <script src="{{ asset('assets/ajax/ajax.js') }}?v={{ filemtime(public_path('assets/ajax/ajax.js')) }}"></script>
 
   <script>
     // Toggle Sidebar

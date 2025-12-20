@@ -4,7 +4,7 @@
 
 @push('style')
 <!-- summernote -->
-<link rel="stylesheet" href="{{ asset('assets/admin/plugins/summernote/summernote-bs4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/admin/plugins/summernote/summernote-bs4.min.css') }}?v={{ filemtime(public_path('assets/admin/plugins/summernote/summernote-bs4.min.css')) }}">
 @endpush
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -61,7 +61,7 @@
 
 @push('js')
 <!-- Summernote -->
-<script src="{{ asset('assets/admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
+<script src="{{ asset('assets/admin/plugins/summernote/summernote-bs4.min.js') }}?v={{ filemtime(public_path('assets/admin/plugins/summernote/summernote-bs4.min.js')) }}"></script>
 <script>
   $(function() {
     // Summernote

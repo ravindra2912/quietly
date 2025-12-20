@@ -4,7 +4,7 @@
 
 @push('style')
 <!-- summernote -->
-<link rel="stylesheet" href="{{ asset('assets/admin/plugins/summernote/summernote-bs4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/admin/plugins/summernote/summernote-bs4.min.css') }}?v={{ filemtime(public_path('assets/admin/plugins/summernote/summernote-bs4.min.css')) }}">
 <style>
     .avtar_img {
         height: 160px;
@@ -149,7 +149,7 @@
 
 @push('js')
 <!-- Summernote -->
-<script src="{{ asset('assets/admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
+<script src="{{ asset('assets/admin/plugins/summernote/summernote-bs4.min.js') }}?v={{ filemtime(public_path('assets/admin/plugins/summernote/summernote-bs4.min.js')) }}"></script>
 <script>
     $(function() {
         // Summernote

@@ -2,8 +2,8 @@
 @section('title', 'Plan Purchases')
 
 @push('style')
-<link rel="stylesheet" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/admin/css/datatable-custom.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}?v={{ filemtime(public_path('assets/admin/css/jquery.dataTables.min.css')) }}" />
+<link rel="stylesheet" href="{{ asset('assets/admin/css/datatable-custom.css') }}?v={{ filemtime(public_path('assets/admin/css/datatable-custom.css')) }}" />
 <!-- Select2 -->
 <link rel="stylesheet" href="{{ asset('assets/admin/css/select2.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/admin/css/select2-bootstrap-5-theme.min.css') }}" />
@@ -91,7 +91,7 @@
 @push('js')
 <script src="{{ asset('assets/admin/js/moment.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/daterangepicker.min.js') }}"></script>
-<script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}?v={{ filemtime(public_path('assets/admin/js/jquery.dataTables.min.js')) }}"></script>
 <!-- Select2 -->
 <script src="{{ asset('assets/admin/js/select2.min.js') }}"></script>
 <!-- Sweet Alert -->

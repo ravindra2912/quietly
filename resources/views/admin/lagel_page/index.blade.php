@@ -3,8 +3,8 @@
 @section('title', 'Legal Pages')
 
 @push('style')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}" />
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/datatable-custom.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}?v={{ filemtime(public_path('assets/admin/css/jquery.dataTables.min.css')) }}" />
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/datatable-custom.css') }}?v={{ filemtime(public_path('assets/admin/css/datatable-custom.css')) }}" />
 @endpush
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -40,7 +40,7 @@
 </div>
 
 @push('js')
-<script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}?v={{ filemtime(public_path('assets/admin/js/jquery.dataTables.min.js')) }}"></script>
 <script type="text/javascript">
   $(function() {
     var table = $('#data-table').DataTable({

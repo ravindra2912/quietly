@@ -69,11 +69,11 @@
 	<link rel="canonical" href="{{ url()->current() }}" />
 	<link rel="icon" type="image/webp" href="{{ config('const.site_setting.fevicon') }}">
 
-	<link rel="stylesheet" type="text/css" href="{{ asset('assets/front/css/bootstrap.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/front/css/bootstrap.min.css') }}?v={{ filemtime(public_path('assets/front/css/bootstrap.min.css')) }}">
 	<!--Toastr -->
-	<link href="{{ asset('assets/ajax/toastr.css') }}" rel="stylesheet" />
+	<link href="{{ asset('assets/ajax/toastr.css') }}?v={{ filemtime(public_path('assets/ajax/toastr.css')) }}" rel="stylesheet" />
 
-	<link rel="stylesheet" type="text/css" href="{{ asset('assets/front/css/frontstyle.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/front/css/frontstyle.css') }}?v={{ filemtime(public_path('assets/front/css/frontstyle.css')) }}">
 
 	<!-- Bootstrap Icons CDN -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
@@ -156,24 +156,20 @@
 		</div>
 	</footer>
 
-	<script src="{{ asset('assets/front/js/jquery.min.js') }}"></script>
-	<script src="{{ asset('assets/front/js/bootstrap.min.js') }}"></script>
+	<script src="{{ asset('assets/front/js/jquery.min.js') }}?v={{ filemtime(public_path('assets/front/js/jquery.min.js')) }}"></script>
+	<script src="{{ asset('assets/front/js/bootstrap.min.js') }}?v={{ filemtime(public_path('assets/front/js/bootstrap.min.js')) }}"></script>
 
 	<!-- Owl Carousel JS -->
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script> -->
 
 
-	<script src="{{ asset('assets/front/js/custom.js') }}"></script>
+	<script src="{{ asset('assets/front/js/custom.js') }}?v={{ filemtime(public_path('assets/front/js/custom.js')) }}"></script>
 	<!--Toastr -->
-	<script src="{{asset('assets/ajax/toastr.min.js')}}"></script>
-	<script src="{{ asset('assets/ajax/ajax.js') }}"></script>
+	<script src="{{asset('assets/ajax/toastr.min.js')}}?v={{ filemtime(public_path('assets/ajax/toastr.min.js')) }}"></script>
+	<script src="{{ asset('assets/ajax/ajax.js') }}?v={{ filemtime(public_path('assets/ajax/ajax.js')) }}"></script>
 
 	@stack('js')
 
-</body>
-
-
-</html>
 </body>
 
 </html>

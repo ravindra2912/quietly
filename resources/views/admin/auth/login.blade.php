@@ -9,11 +9,11 @@
   <!-- Google Font: Nunito -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap">
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap.min.css') }}?v={{ filemtime(public_path('assets/admin/css/bootstrap.min.css')) }}">
   <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap-icons.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap-icons.min.css') }}?v={{ filemtime(public_path('assets/admin/css/bootstrap-icons.min.css')) }}">
   <!-- Custom Login Style -->
-  <link rel="stylesheet" href="{{ asset('assets/admin/css/login-custom.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/admin/css/login-custom.css') }}?v={{ filemtime(public_path('assets/admin/css/login-custom.css')) }}">
 </head>
 
 <body class="login-page">
@@ -77,7 +77,7 @@
   <!-- jQuery -->
   <script src="{{ asset('assets/admin/js/jquery-3.7.1.min.js') }}"></script>
   <!-- Bootstrap 4 -->
-  <script src="{{ asset('assets/admin/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('assets/admin/js/bootstrap.bundle.min.js') }}?v={{ filemtime(public_path('assets/admin/js/bootstrap.bundle.min.js')) }}"></script>
 
   <script>
     // Add loading state to button on form submit

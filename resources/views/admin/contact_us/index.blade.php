@@ -2,8 +2,8 @@
 @section('title', 'Contact Us List')
 
 @push('style')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}" />
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/datatable-custom.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/jquery.dataTables.min.css') }}?v={{ filemtime(public_path('assets/admin/css/jquery.dataTables.min.css')) }}" />
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/datatable-custom.css') }}?v={{ filemtime(public_path('assets/admin/css/datatable-custom.css')) }}" />
 @endpush
 
 @section('content')
@@ -104,7 +104,7 @@
 
 @push('js')
 <!-- DataTables -->
-<script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}?v={{ filemtime(public_path('assets/admin/js/jquery.dataTables.min.js')) }}"></script>
 <!-- Sweet Alert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
