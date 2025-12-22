@@ -2,14 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use Carbon\Carbon;
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Validator;
-use App\Models\{Plan, User};
+use App\Models\{User};
 
 class CommonApiController extends Controller
 {
@@ -27,6 +22,11 @@ class CommonApiController extends Controller
 
 			$data['is_login'] = auth('api')->check();
 			if ($data['is_login']) {
+
+				User::where('id', auth('api')->user()->id)->update([
+					'login_at' => now(),
+				]);
+
 				$data['user'] = User::select(
 					'id',
 					'first_name',

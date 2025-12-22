@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('google_auth_token', 250)->nullable();
             $table->enum('role', ['admin', 'user'])->default('user');
             $table->enum('status', ['active', 'in-active', 'banned'])->default('active');
+            $table->dateTime('login_at')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();
             $table->softDeletes();
