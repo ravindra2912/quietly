@@ -41,6 +41,8 @@ Route::name('admin.')->group(function () {
         Route::controller(SettingController::class)->group(function () {
             Route::get('setting/profile', 'profile')->name('setting.profile');
             Route::post('setting/profile/{id}', 'profileUpdate')->name('setting.profile.update');
+            Route::get('setting/ads', 'ads')->name('setting.ads');
+            Route::post('setting/ads', 'adsUpdate')->name('setting.ads.update');
         });
 
         Route::resource('blog', BlogController::class);

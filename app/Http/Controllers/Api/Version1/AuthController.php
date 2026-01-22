@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
-use App\Models\{User};
+use App\Models\{User, Setting};
 use App\Mail\ResetPasswordMail;
 
 class AuthController extends Controller
@@ -38,7 +38,7 @@ class AuthController extends Controller
 				$message = $validator->errors()->first();
 			} else {
 
-				$user = User::select('id', 'first_name', 'last_name', 'email', 'phone', 'profile_image', 'password')
+				$user = User::select('id', 'first_name', 'last_name', 'email', 'phone', 'profile_image', 'occupation', 'password')
 					->where('role', 'user');
 				if ($request->login_type == 'google') {
 					$user = $user->where('google_auth_token', $request->google_auth_token);
@@ -56,10 +56,13 @@ class AuthController extends Controller
 						if (Hash::check($request->password, $user->password)) {
 							if (Auth::loginUsingId($user->id)) {
 								$accessToken = auth()->user()->createToken('authToken')->accessToken;
+								$settings = Setting::first();
 								$success = true;
 								$message = 'Loging SuccessFully';
 								$data['token'] = $accessToken;
 								$data['user'] = $user->apiObject();
+								$data['is_ads'] = $settings->is_ads ?? false;
+								$data['ads_key'] = $settings->ads_key ?? null;
 							} else {
 								$message = 'Invalid Password';
 							}

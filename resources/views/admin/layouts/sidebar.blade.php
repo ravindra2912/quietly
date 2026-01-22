@@ -39,6 +39,9 @@
       <a href="{{ route('admin.setting.profile') }}" class="list-group-item list-group-item-action second-text ps-5 {{ request()->routeIs('admin.setting.profile*') ? 'active' : '' }}">
         <i class="bi bi-person me-2"></i>Profile
       </a>
+      <a href="{{ route('admin.setting.ads') }}" class="list-group-item list-group-item-action second-text ps-5 {{ request()->routeIs('admin.setting.ads*') ? 'active' : '' }}">
+        <i class="bi bi-megaphone me-2"></i>Ads
+      </a>
     </div>
 
     <a href="{{ route('admin.logout') }}" class="list-group-item list-group-item-action text-danger fw-bold">

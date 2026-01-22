@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\Setting;
 use App\Models\LegalPage;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -25,6 +26,12 @@ class SettingController extends Controller
     {
         $user = User::find(Auth::user()->id);
         return view('admin.setting.profile', compact('user'));
+    }
+
+    public function ads()
+    {
+        $settings = Setting::first();
+        return view('admin.setting.ads', compact('settings'));
     }
 
     public function profileUpdate(Request $request, $id)
@@ -86,6 +93,44 @@ class SettingController extends Controller
             if (isset($image_name) && !empty($image_name)) {
                 fileRemoveStorage($image_name);
             }
+        }
+        return response()->json(['success' => $success, 'message' => $message, 'data' => $data, 'redirect' => $redirect]);
+    }
+
+    public function adsUpdate(Request $request)
+    {
+        $success = false;
+        $message = 'Something Wrong!';
+        $redirect = route('admin.setting.profile');
+        $data = array();
+
+        try {
+            $rules = [
+                'ads_key' => 'nullable|string|max:255',
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                $message = $validator->errors();
+                return response()->json(['success' => $success, 'message' => $message, 'data' => $data, 'redirect' => $redirect]);
+            }
+
+            // Get or create settings
+            $settings = Setting::first();
+            if (!$settings) {
+                $settings = new Setting();
+            }
+
+            $settings->is_ads = $request->has('is_ads') ? true : false;
+            $settings->ads_key = $request->ads_key;
+
+            $settings->save();
+
+            $success = true;
+            $message = 'Ads settings updated successfully.';
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
         }
         return response()->json(['success' => $success, 'message' => $message, 'data' => $data, 'redirect' => $redirect]);
     }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\{User};
+use App\Models\{User, Setting};
 
 class CommonApiController extends Controller
 {
@@ -52,6 +52,9 @@ class CommonApiController extends Controller
 					->find(auth('api')->user()->id)
 					->apiObject();
 			}
+			$settings = Setting::first();
+			$data['is_ads'] = $settings->is_ads ?? false;
+			$data['ads_key'] = $settings->ads_key ?? null;
 
 
 			$success = true;
