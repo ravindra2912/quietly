@@ -16,6 +16,12 @@ class PlanController extends Controller
             $data = Plan::query();
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->addColumn('price', function ($row) {
+                    return '<span class="text-success fw-bold"><i class="bi bi-currency-rupee"></i> ' . $row->price . '</span>';
+                })
+                ->addColumn('price_in_dollar', function ($row) {
+                    return $row->price_in_dollar ? '<span class="text-info fw-bold"><i class="bi bi-currency-dollar"></i> ' . $row->price_in_dollar . '</span>' : '<span class="text-muted">-</span>';
+                })
                 ->addColumn('is_ad_free', function ($row) {
                     return $row->is_ad_free ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-secondary">No</span>';
                 })
@@ -36,7 +42,7 @@ class PlanController extends Controller
                     </button>
                     </div>';
                 })
-                ->rawColumns(['is_ad_free', 'is_active_multiple_group', 'status', 'action'])
+                ->rawColumns(['price', 'price_in_dollar', 'is_ad_free', 'is_active_multiple_group', 'status', 'action'])
                 ->make(true);
         }
         return view('admin.plan.index');
@@ -58,6 +64,7 @@ class PlanController extends Controller
             $rules = [
                 'name' => 'required|string|max:255',
                 'price' => 'required|numeric|min:0',
+                'price_in_dollar' => 'nullable|numeric|min:0',
                 'duration_in_month' => 'required|integer|min:1',
                 'is_ad_free' => 'required|boolean',
                 'group_active_timing' => 'required|string',
@@ -75,6 +82,7 @@ class PlanController extends Controller
                 $insert = new Plan();
                 $insert->name = $request->name;
                 $insert->price = $request->price;
+                $insert->price_in_dollar = $request->price_in_dollar;
                 $insert->duration_in_month = $request->duration_in_month;
                 $insert->is_ad_free = $request->is_ad_free;
                 $insert->group_active_timing = $request->group_active_timing;
@@ -110,6 +118,7 @@ class PlanController extends Controller
             $rules = [
                 'name' => 'required|string|max:255',
                 'price' => 'required|numeric|min:0',
+                'price_in_dollar' => 'nullable|numeric|min:0',
                 'duration_in_month' => 'required|integer|min:1',
                 'is_ad_free' => 'required|boolean',
                 'group_active_timing' => 'required|string',
@@ -127,6 +136,7 @@ class PlanController extends Controller
                 $update = Plan::find($id);
                 $update->name = $request->name;
                 $update->price = $request->price;
+                $update->price_in_dollar = $request->price_in_dollar;
                 $update->duration_in_month = $request->duration_in_month;
                 $update->is_ad_free = $request->is_ad_free;
                 $update->group_active_timing = $request->group_active_timing;

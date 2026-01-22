@@ -34,6 +34,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>Price in Dollar</th>
                         <th>Duration (Months)</th>
                         <th>Ad Free</th>
                         <th>Multiple Groups</th>
@@ -87,6 +88,11 @@
                     data: 'price',
                     name: 'price',
                     className: 'text-success fw-bold'
+                },
+                {
+                    data: 'price_in_dollar',
+                    name: 'price_in_dollar',
+                    className: 'text-info fw-bold'
                 },
                 {
                     data: 'duration_in_month',

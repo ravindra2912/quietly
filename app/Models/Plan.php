@@ -9,6 +9,7 @@ class Plan extends Model
     protected $fillable = [
         'name',
         'price',
+        'price_in_dollar',
         'duration_in_month',
         'is_ad_free',
         'group_active_timing',
@@ -22,6 +23,7 @@ class Plan extends Model
         'is_ad_free' => 'boolean',
         'is_active_multiple_group' => 'boolean',
         'price' => 'decimal:2',
+        'price_in_dollar' => 'decimal:2',
     ];
 
     // Relationships
@@ -36,6 +38,7 @@ class Plan extends Model
             'id' => $this->id,
             'name' => $this->name,
             'price' => $this->price,
+            'price_in_dollar' => $this->price_in_dollar,
             'duration_in_month' => $this->duration_in_month,
             'is_ad_free' => $this->is_ad_free,
             'group_active_timing' => $this->group_active_timing,

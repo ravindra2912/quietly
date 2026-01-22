@@ -49,6 +49,13 @@
 
                             <div class="col-md-3">
                                 <div class="mb-3">
+                                    <label class="form-label">Price in Dollar</label>
+                                    <input type="number" step="0.01" class="form-control" name="price_in_dollar" value="{{ $plan->price_in_dollar }}" placeholder="0.00" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="mb-3">
                                     <label class="form-label">Duration (Months) <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" name="duration_in_month" value="{{ $plan->duration_in_month }}" placeholder="1" />
                                 </div>
