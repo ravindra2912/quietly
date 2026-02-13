@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\{OtherApp, User, Setting};
+use App\Models\{Contact, OtherApp, User, Setting};
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class CommonApiController extends Controller
 {
@@ -97,6 +99,48 @@ class CommonApiController extends Controller
 			$success = true;
 			$message = 'Data Found';
 		} catch (\Exception $e) {
+			$message = $e->getMessage();
+		}
+		return apiResponce($statuscode, $success, $message, $data);
+	}
+
+	// contact us using contacts table
+	public function contactUs(Request $request)
+	{
+		$success = false;
+		$message = 'Something Wrong!';
+		$data = array();
+		$statuscode = 200;
+
+		try {
+			$rules = [
+				'name' => 'required|max:191',
+				'email' => 'required|email|max:191',
+				'description' => 'required',
+				'type' => 'required|in:ReportAnIssue,FeatureRequest,GeneralHelp',
+			];
+
+			$validator = Validator::make($request->all(), $rules);
+
+			if ($validator->fails()) { // Validation fails
+				$message = $validator->errors();
+				// $message = $validator->errors()->first();
+			} else {
+				DB::beginTransaction();
+
+				$Contact = new Contact();
+				$Contact->name = trim($request->name);
+				$Contact->email = trim($request->email);
+				$Contact->description = trim($request->description);
+				$Contact->type = trim($request->type);
+				$Contact->save();
+
+				$success = true;
+				$message =  'Contact Us SuccessFully';
+				DB::commit();
+			}
+		} catch (\Exception $e) {
+			DB::rollback();
 			$message = $e->getMessage();
 		}
 		return apiResponce($statuscode, $success, $message, $data);

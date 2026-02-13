@@ -91,9 +91,9 @@
                         <label for="status" class="form-label fw-bold">Status</label>
                         <select name="status" id="status" class="form-select" required>
                             @foreach($statuses as $status)
-                                <option value="{{ $status }}" {{ $contact->status === $status ? 'selected' : '' }}>
-                                    {{ ucfirst(str_replace('_', ' ', $status)) }}
-                                </option>
+                            <option value="{{ $status }}" {{ $contact->status === $status ? 'selected' : '' }}>
+                                {{ ucfirst(str_replace('_', ' ', $status)) }}
+                            </option>
                             @endforeach
                         </select>
                         <small class="text-muted d-block mt-2">
@@ -140,13 +140,13 @@
                     <label class="form-label fw-bold">Read Status</label>
                     <p class="form-control-plaintext">
                         @if($contact->is_read)
-                            <span class="badge bg-success">
-                                <i class="bi bi-check-circle me-1"></i> Read
-                            </span>
+                        <span class="badge bg-success">
+                            <i class="bi bi-check-circle me-1"></i> Read
+                        </span>
                         @else
-                            <span class="badge bg-warning">
-                                <i class="bi bi-exclamation-circle me-1"></i> Unread
-                            </span>
+                        <span class="badge bg-warning">
+                            <i class="bi bi-exclamation-circle me-1"></i> Unread
+                        </span>
                         @endif
                     </p>
                 </div>
@@ -171,72 +171,5 @@
 
 @push('js')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const forms = document.querySelectorAll('form.formaction');
-        
-        forms.forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const action = form.getAttribute('data-action');
-                const formData = new FormData(form);
-                
-                fetch(form.action, {
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Accept': 'application/json'
-                    },
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: data.message,
-                            timer: 1500,
-                            didClose: () => {
-                                if (action === 'redirect' && data.redirect) {
-                                    window.location.href = data.redirect;
-                                } else if (action === 'reload') {
-                                    location.reload();
-                                } else {
-                                    setTimeout(() => {
-                                        location.reload();
-                                    }, 500);
-                                }
-                            }
-                        });
-                    } else {
-                        const errors = data.message;
-                        let errorText = '';
-                        
-                        if (typeof errors === 'object') {
-                            errorText = Object.values(errors).flat().join('\n');
-                        } else {
-                            errorText = errors;
-                        }
-                        
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops!',
-                            text: errorText
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error!',
-                        text: 'An error occurred while processing your request'
-                    });
-                });
-            });
-        });
-    });
-</script>
+
 @endpush
