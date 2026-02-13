@@ -21,8 +21,15 @@
     <a href="{{ route('admin.blog.index') }}" class="list-group-item list-group-item-action second-text {{ request()->routeIs('admin.blog*') ? 'active' : '' }}">
       <i class="bi bi-journal-richtext me-2"></i>Blog
     </a>
+    <a href="{{ route('admin.other-apps.index') }}" class="list-group-item list-group-item-action second-text {{ request()->routeIs('admin.other-apps*') ? 'active' : '' }}">
+      <i class="bi bi-grid me-2"></i>Other Apps
+    </a>
     <a href="{{ route('admin.contact-us.index') }}" class="list-group-item list-group-item-action second-text {{ Route::is('admin.contact-us.index') ? 'active' : '' }}">
       <i class="bi bi-envelope me-2"></i>Contact Us
+    </a>
+
+    <a href="{{ route('admin.contact.index') }}" class="list-group-item list-group-item-action second-text {{ Route::is('admin.contact.index') ? 'active' : '' }}">
+      <i class="bi bi-envelope me-2"></i>App Contact
     </a>
     <a href="{{ route('admin.faq.index') }}" class="list-group-item list-group-item-action second-text {{ Route::is('admin.faq.index') ? 'active' : '' }}">
       <i class="bi bi-question-circle me-2"></i>FAQ

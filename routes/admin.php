@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\PlanPurchaseController;
 use App\Http\Controllers\Admin\ContactUsController;
+use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\OtherAppController;
 
 Route::name('admin.')->group(function () {
     Route::middleware('web', 'guest')->group(function () {
@@ -51,6 +53,12 @@ Route::name('admin.')->group(function () {
         Route::get('plan-purchase-search-users', [PlanPurchaseController::class, 'searchUsers'])->name('plan-purchase.search-users');
         Route::post('contact-us/update-status', [ContactUsController::class, 'updateStatus'])->name('contact-us.update-status');
         Route::resource('contact-us', ContactUsController::class)->only(['index', 'destroy', 'show']);
+
+        // Admin Contacts Management
+        Route::resource('contact', ContactController::class)->only(['index', 'show', 'update']);
+
+        Route::resource('other-apps', OtherAppController::class);
+
         // Summernote image upload route for admin blog
         Route::post('blog/upload-image', [BlogController::class, 'uploadImage'])->name('blog.uploadImage');
 

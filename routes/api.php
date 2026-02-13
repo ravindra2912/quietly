@@ -22,6 +22,7 @@ Route::group(['prefix' => '/version-1'], function () {
     Route::group(['middleware' => ['auth:api']], function () {
 
         Route::controller(UserController::class)->group(function () {
+            Route::get('/get-profile', 'getProfile');
             Route::post('/update-user-profile', 'UpdateProfile');
             Route::delete('/remove-account', 'removeAccount');
         });

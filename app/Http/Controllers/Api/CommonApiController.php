@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\{User, Setting};
+use App\Models\{OtherApp, User, Setting};
 
 class CommonApiController extends Controller
 {
@@ -75,6 +75,25 @@ class CommonApiController extends Controller
 		try {
 			$pageDetail = getLegalPage($page);
 			$data['pageinfo'] = $pageDetail ? $pageDetail->description : '';
+			$success = true;
+			$message = 'Data Found';
+		} catch (\Exception $e) {
+			$message = $e->getMessage();
+		}
+		return apiResponce($statuscode, $success, $message, $data);
+	}
+
+	public function otherApps(Request $request)
+	{
+		$success = false;
+		$message = 'Something Wrong!';
+		$data = [];
+		$statuscode = 200;
+
+		try {
+			$data = OtherApp::where('status', 'active')->get()->map(function ($app) {
+				return $app->apiObject();
+			});
 			$success = true;
 			$message = 'Data Found';
 		} catch (\Exception $e) {

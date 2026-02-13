@@ -55,6 +55,7 @@ class UserController extends Controller
 
 					$success = true;
 					$message =  'Profile update SuccessFully';
+					$data = $User->apiObject();
 					DB::commit();
 				} catch (\Exception $e) {
 					DB::rollback();
@@ -98,6 +99,23 @@ class UserController extends Controller
 
 			$success = true;
 			$message =  'Account removed SuccessFully';
+		} catch (\Exception $e) {
+			$message = $e->getMessage();
+		}
+		return apiResponce($statuscode, $success, $message, $data);
+	}
+
+	public function getProfile(Request $request)
+	{
+		$success = false;
+		$message = 'Something Wrong!';
+		$data = array();
+		$statuscode = 200;
+
+		try {
+			$data['user'] = $request->user()->apiObject();
+			$success = true;
+			$message = 'Data Found';
 		} catch (\Exception $e) {
 			$message = $e->getMessage();
 		}
